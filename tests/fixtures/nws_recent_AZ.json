@@ -1,0 +1,3238 @@
+{
+    "@context": [
+        "https://geojson.org/geojson-ld/geojson-context.jsonld",
+        {
+            "@version": "1.1",
+            "wx": "https://api.weather.gov/ontology#",
+            "@vocab": "https://api.weather.gov/ontology#"
+        }
+    ],
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.47a62653695189a26effd54fa380b6af9554460d.001.1",
+            "type": "Feature",
+            "geometry": null,
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.47a62653695189a26effd54fa380b6af9554460d.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.47a62653695189a26effd54fa380b6af9554460d.001.1",
+                "areaDesc": "Western Pima County Including Ajo/Organ Pipe Cactus National Monument; Tohono O'odham Nation including Sells; Upper Santa Cruz River and Altar Valleys including Nogales; Tucson Metro Area including Tucson/Green Valley/Marana/Vail; South Central Pinal County including Eloy/Picacho Peak State Park; Southeast Pinal County including Kearny/Mammoth/Oracle; Upper San Pedro River Valley including Sierra Vista/Benson; Eastern Cochise County Below 5000 Feet including Douglas/Willcox; Upper Gila River and Aravaipa Valleys including Clifton/Safford; White Mountains of Graham and Greenlee Counties including Hannagan Meadow; Galiuro and Pinaleno Mountains including Mount Graham; Chiricahua Mountains including Chiricahua National Monument; Dragoon/Mule/Huachuca and Santa Rita Mountains including Bisbee/Canelo Hills/Madera Canyon; Santa Catalina and Rincon Mountains including Mount Lemmon/Summerhaven; Baboquivari Mountains including Kitt Peak",
+                "geocode": {
+                    "SAME": [
+                        "004019",
+                        "004021",
+                        "004023",
+                        "004003",
+                        "004009",
+                        "004011"
+                    ],
+                    "UGC": [
+                        "AZZ501",
+                        "AZZ502",
+                        "AZZ503",
+                        "AZZ504",
+                        "AZZ505",
+                        "AZZ506",
+                        "AZZ507",
+                        "AZZ508",
+                        "AZZ509",
+                        "AZZ510",
+                        "AZZ511",
+                        "AZZ512",
+                        "AZZ513",
+                        "AZZ514",
+                        "AZZ515"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/forecast/AZZ501",
+                    "https://api.weather.gov/zones/forecast/AZZ502",
+                    "https://api.weather.gov/zones/forecast/AZZ503",
+                    "https://api.weather.gov/zones/forecast/AZZ504",
+                    "https://api.weather.gov/zones/forecast/AZZ505",
+                    "https://api.weather.gov/zones/forecast/AZZ506",
+                    "https://api.weather.gov/zones/forecast/AZZ507",
+                    "https://api.weather.gov/zones/forecast/AZZ508",
+                    "https://api.weather.gov/zones/forecast/AZZ509",
+                    "https://api.weather.gov/zones/forecast/AZZ510",
+                    "https://api.weather.gov/zones/forecast/AZZ511",
+                    "https://api.weather.gov/zones/forecast/AZZ512",
+                    "https://api.weather.gov/zones/forecast/AZZ513",
+                    "https://api.weather.gov/zones/forecast/AZZ514",
+                    "https://api.weather.gov/zones/forecast/AZZ515"
+                ],
+                "references": [],
+                "sent": "2026-09-26T13:17:00-07:00",
+                "effective": "2026-09-26T13:17:00-07:00",
+                "onset": "2026-09-28T11:00:00-07:00",
+                "expires": "2026-09-26T21:30:00-07:00",
+                "ends": "2026-09-29T23:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Possible",
+                "urgency": "Future",
+                "event": "Flood Watch",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Flood Watch issued September 26 at 1:17PM MST until September 29 at 11:00PM MST by NWS Tucson AZ",
+                "description": "* WHAT...Flash flooding caused by excessive rainfall is possible.\n\n* WHERE...For all of southeast Arizona, including the following\nareas, Baboquivari Mountains, Catalina and Rincon Mountains,\nChiricahua Mountains, Dragoon and Mule and Huachuca and Santa Rita\nMountains, Eastern Cochise County below 5000 feet, Galiuro and\nPinaleno Mountains, South Central Pinal County, Southeast Pinal\nCounty, Tohono O'odham Nation, Tucson Metro Area, Upper Gila River\nValley, Upper San Pedro River Valley, Upper Santa Cruz River\nValley/Altar Valley, Western Pima County and White Mountains of\nGraham and Greenlee Counties.\n\n* WHEN...From late Monday morning through Tuesday evening.\n\n* IMPACTS...Excessive runoff may result in flooding of rivers,\ncreeks, streams, and other low-lying and flood-prone locations.\n\n* ADDITIONAL DETAILS...\n- Deep tropical moisture will combine with an approaching upper low\nand trough, resulting in areas of heavy rainfall. Rainfall totals\nof 1 to 2 inches are possible across most of southeast Arizona,\nwith locally heavier amounts under the stronger thunderstorms.\n- http://www.weather.gov/safety/flood",
+                "instruction": "You should monitor later forecasts and be prepared to take action\nshould Flash Flood Warnings be issued.",
+                "response": "Prepare",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FFATWC"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS65 KTWC 262017"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD WATCH IN EFFECT FROM LATE MONDAY MORNING THROUGH TUESDAY EVENING"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.NEW.KTWC.FA.A.0013.260928T1800Z-260930T0600Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-29T23:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "FFA"
+                    ],
+                    "NationalWeatherService": [
+                        "FAA"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.bf395783e958c285bfd2b37f18191bb5ead2acfb.001.1",
+            "type": "Feature",
+            "geometry": null,
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.bf395783e958c285bfd2b37f18191bb5ead2acfb.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.bf395783e958c285bfd2b37f18191bb5ead2acfb.001.1",
+                "areaDesc": "Northwest Plateau; Hualapai Mountains; Northwest Deserts",
+                "geocode": {
+                    "SAME": [
+                        "004015"
+                    ],
+                    "UGC": [
+                        "AZZ001",
+                        "AZZ575",
+                        "AZZ576"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/forecast/AZZ001",
+                    "https://api.weather.gov/zones/forecast/AZZ575",
+                    "https://api.weather.gov/zones/forecast/AZZ576"
+                ],
+                "references": [],
+                "sent": "2026-09-26T12:10:00-07:00",
+                "effective": "2026-09-26T12:10:00-07:00",
+                "onset": "2026-09-28T05:00:00-07:00",
+                "expires": "2026-09-27T05:00:00-07:00",
+                "ends": "2026-09-29T23:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Possible",
+                "urgency": "Future",
+                "event": "Flood Watch",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Las Vegas NV",
+                "headline": "Flood Watch issued September 26 at 12:10PM PDT until September 29 at 11:00PM PDT by NWS Las Vegas NV",
+                "description": "* WHAT...Flooding caused by excessive rainfall is possible.\n\n* WHERE...A portion of northwest Arizona, including the following\nareas, Hualapai Mountains, Northwest Deserts and Northwest Plateau.\n\n* WHEN...From early Monday morning through Tuesday evening.\n\n* IMPACTS...Excessive runoff may result in flooding of rivers,\ncreeks, streams, and other low-lying and flood-prone locations.\nLow-water crossings may be flooded.\n\n* ADDITIONAL DETAILS...\n- Showers and thunderstorms capable of producing flash flooding.\n- Kingman, Colorado City, Valentine, Dolan Springs, Wikieup, Peach\nSprings.\n- http://www.weather.gov/safety/flood",
+                "instruction": "You should monitor later forecasts and be alert for possible Flood\nWarnings. Those living in areas prone to flooding should be prepared\nto take action should flooding develop.",
+                "response": "Prepare",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FFAVEF"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS65 KVEF 261910"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD WATCH IN EFFECT FROM EARLY MONDAY MORNING THROUGH TUESDAY EVENING"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.NEW.KVEF.FA.A.0004.260928T1200Z-260930T0600Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-29T23:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "FFA"
+                    ],
+                    "NationalWeatherService": [
+                        "FAA"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e50ed3715982b7d38f6d11c8fb3fa472fd629878.001.1",
+            "type": "Feature",
+            "geometry": null,
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e50ed3715982b7d38f6d11c8fb3fa472fd629878.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.e50ed3715982b7d38f6d11c8fb3fa472fd629878.001.1",
+                "areaDesc": "Kaibab Plateau; Marble and Glen Canyons; Grand Canyon Country; Coconino Plateau; Yavapai County Mountains; Northeast Plateaus and Mesas Hwy 264 Northward; Chinle Valley; Chuska Mountains and Defiance Plateau; Little Colorado River Valley in Coconino County; Little Colorado River Valley in Navajo County; Little Colorado River Valley in Apache County; Western Mogollon Rim; Eastern Mogollon Rim; White Mountains; Northern Gila County; Yavapai County Valleys and Basins; Oak Creek and Sycamore Canyons; Black Mesa Area; Northeast Plateaus and Mesas South of Hwy 264",
+                "geocode": {
+                    "SAME": [
+                        "004005",
+                        "004025",
+                        "004001",
+                        "004017",
+                        "004007"
+                    ],
+                    "UGC": [
+                        "AZZ004",
+                        "AZZ005",
+                        "AZZ006",
+                        "AZZ007",
+                        "AZZ008",
+                        "AZZ009",
+                        "AZZ010",
+                        "AZZ011",
+                        "AZZ012",
+                        "AZZ013",
+                        "AZZ014",
+                        "AZZ015",
+                        "AZZ016",
+                        "AZZ017",
+                        "AZZ018",
+                        "AZZ037",
+                        "AZZ038",
+                        "AZZ039",
+                        "AZZ040"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/forecast/AZZ004",
+                    "https://api.weather.gov/zones/forecast/AZZ005",
+                    "https://api.weather.gov/zones/forecast/AZZ006",
+                    "https://api.weather.gov/zones/forecast/AZZ007",
+                    "https://api.weather.gov/zones/forecast/AZZ008",
+                    "https://api.weather.gov/zones/forecast/AZZ009",
+                    "https://api.weather.gov/zones/forecast/AZZ010",
+                    "https://api.weather.gov/zones/forecast/AZZ011",
+                    "https://api.weather.gov/zones/forecast/AZZ012",
+                    "https://api.weather.gov/zones/forecast/AZZ013",
+                    "https://api.weather.gov/zones/forecast/AZZ014",
+                    "https://api.weather.gov/zones/forecast/AZZ015",
+                    "https://api.weather.gov/zones/forecast/AZZ016",
+                    "https://api.weather.gov/zones/forecast/AZZ017",
+                    "https://api.weather.gov/zones/forecast/AZZ018",
+                    "https://api.weather.gov/zones/forecast/AZZ037",
+                    "https://api.weather.gov/zones/forecast/AZZ038",
+                    "https://api.weather.gov/zones/forecast/AZZ039",
+                    "https://api.weather.gov/zones/forecast/AZZ040"
+                ],
+                "references": [],
+                "sent": "2026-09-26T12:01:00-07:00",
+                "effective": "2026-09-26T12:01:00-07:00",
+                "onset": "2026-09-27T23:00:00-07:00",
+                "expires": "2026-09-28T23:45:00-07:00",
+                "ends": "2026-09-29T23:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Possible",
+                "urgency": "Future",
+                "event": "Flood Watch",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Flagstaff AZ",
+                "headline": "Flood Watch issued September 26 at 12:01PM MST until September 29 at 11:00PM MST by NWS Flagstaff AZ",
+                "description": "* WHAT...Flooding caused by excessive and long duration rainfall.\n\n* WHERE...All of northern and central Arizona.\n\n* WHEN...From Sunday evening through Tuesday evening.\n\n* IMPACTS...Flooding will be possible over burn areas, low-water\ncrossings, creeks, streams, washes and swimming holes. Larger\ncreeks and rivers may exceed bankfull. Flooding of paved roads and\nhighway underpasses will be possible. Unpaved roads could become\nmuddy and impassable.\n\n* ADDITIONAL DETAILS...\n- Low pressure will interact with tropical moisture from the\neastern Pacific. This could potentially produce numerous showers\nand embedded thunderstorms, with heavy rain that will fall over\nsaturated soils and burn scars. This could lead to localized\nflash flooding and rises on local rivers, such as the Little\nColorado River.\n- Additional information is available at weather.gov/flagstaff.",
+                "instruction": "You should monitor later forecasts and be alert for possible Flood\nWarnings. Those living in areas prone to flooding should be prepared\nto take action should flooding develop.",
+                "response": "Prepare",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FFAFGZ"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS65 KFGZ 261901"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD WATCH IN EFFECT FROM SUNDAY EVENING THROUGH TUESDAY EVENING"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.NEW.KFGZ.FA.A.0009.260928T0600Z-260930T0600Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-29T23:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "FFA"
+                    ],
+                    "NationalWeatherService": [
+                        "FAA"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fd4b9cb4c158f02eca76db7651018c86a2cf7433.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -113.97,
+                            35.29
+                        ],
+                        [
+                            -113.91,
+                            35.29
+                        ],
+                        [
+                            -113.81,
+                            35.42
+                        ],
+                        [
+                            -114.11,
+                            35.55
+                        ],
+                        [
+                            -114.14,
+                            35.46
+                        ],
+                        [
+                            -114.11,
+                            35.34
+                        ],
+                        [
+                            -113.97,
+                            35.29
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fd4b9cb4c158f02eca76db7651018c86a2cf7433.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.fd4b9cb4c158f02eca76db7651018c86a2cf7433.001.1",
+                "areaDesc": "Mohave, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004015"
+                    ],
+                    "UGC": [
+                        "AZC015"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC015"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3f6c8c302eb111c20d9bec1b7a8ab744584efb9b.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.3f6c8c302eb111c20d9bec1b7a8ab744584efb9b.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:07:00-07:00"
+                    },
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.712c7cb92e7b45fe2c66714bb922e92e4b30afe7.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.712c7cb92e7b45fe2c66714bb922e92e4b30afe7.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T17:50:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T18:58:00-07:00",
+                "effective": "2026-09-24T18:58:00-07:00",
+                "onset": "2026-09-24T18:58:00-07:00",
+                "expires": "2026-09-24T19:08:00-07:00",
+                "ends": "2026-09-24T19:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Las Vegas NV",
+                "headline": "Flood Advisory issued September 24 at 6:58PM PDT until September 24 at 7:00PM PDT by NWS Las Vegas NV",
+                "description": "The Flood Advisory will expire at 7 PM MST this evening for a portion\nof northwest Arizona, including the following area, Mohave.\n\nFlood waters have receded. The heavy rain has ended. Flooding is no\nlonger expected to pose a threat. Please continue to heed remaining\nroad closures.",
+                "instruction": null,
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSVEF"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KVEF 250158"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY WILL EXPIRE AT 7 PM MST THIS EVENING"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KVEF.FA.Y.0096.000000T0000Z-260925T0200Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T19:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.31ba55712623de05acd76dccaba221e4f67369ac.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111.74,
+                            33.65
+                        ],
+                        [
+                            -111.55,
+                            34
+                        ],
+                        [
+                            -111.5,
+                            34
+                        ],
+                        [
+                            -111.5,
+                            34.01
+                        ],
+                        [
+                            -111.43,
+                            34.01
+                        ],
+                        [
+                            -111.41,
+                            33.97
+                        ],
+                        [
+                            -111.26,
+                            33.9
+                        ],
+                        [
+                            -111.2,
+                            33.84
+                        ],
+                        [
+                            -111.17,
+                            33.73
+                        ],
+                        [
+                            -111.36,
+                            33.61
+                        ],
+                        [
+                            -111.75,
+                            33.63
+                        ],
+                        [
+                            -111.74,
+                            33.65
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.31ba55712623de05acd76dccaba221e4f67369ac.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.31ba55712623de05acd76dccaba221e4f67369ac.001.1",
+                "areaDesc": "Cave Creek/New River; Rio Verde/Salt River; Fountain Hills/East Mesa; Tonto Basin; Mazatzal Mountains",
+                "geocode": {
+                    "SAME": [
+                        "004013",
+                        "004007"
+                    ],
+                    "UGC": [
+                        "AZZ541",
+                        "AZZ547",
+                        "AZZ549",
+                        "AZZ556",
+                        "AZZ557"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/forecast/AZZ541",
+                    "https://api.weather.gov/zones/forecast/AZZ547",
+                    "https://api.weather.gov/zones/forecast/AZZ549",
+                    "https://api.weather.gov/zones/forecast/AZZ556",
+                    "https://api.weather.gov/zones/forecast/AZZ557"
+                ],
+                "references": [],
+                "sent": "2026-09-24T17:59:00-07:00",
+                "effective": "2026-09-24T17:59:00-07:00",
+                "onset": "2026-09-24T17:59:00-07:00",
+                "expires": "2026-09-24T18:30:00-07:00",
+                "ends": null,
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Moderate",
+                "certainty": "Observed",
+                "urgency": "Expected",
+                "event": "Special Weather Statement",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Special Weather Statement issued September 24 at 5:59PM MST by NWS Phoenix AZ",
+                "description": "At 559 PM MST, Doppler radar was tracking a strong thunderstorm near\nFour Peaks, or 6 miles southeast of Ballantine Trailhead, moving west\nat 25 mph.\n\nHAZARD...Wind gusts up to 50 mph and pea size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects. Minor damage to outdoor objects is\npossible.\n\nLocations impacted include...\nRound Valley, Sunflower, Sycamore Creek, Punkin Center, Tonto\nBasin, Four Peaks, Rio Verde and Fort McDowell.",
+                "instruction": "Monitor the weather situation closely and be alert for threatening\nweather conditions.",
+                "response": "Execute",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SPSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS85 KPSR 250059"
+                    ],
+                    "NWSheadline": [
+                        "A STRONG THUNDERSTORM WILL IMPACT MARICOPA COUNTY UNTIL 630 PM MST"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-25T00:58:00-00:00...storm...101DEG...21KT...33.72,-111.4"
+                    ],
+                    "maxWindGust": [
+                        "50 MPH"
+                    ],
+                    "maxHailSize": [
+                        "0.25"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SPS"
+                    ],
+                    "NationalWeatherService": [
+                        "SPS"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.712c7cb92e7b45fe2c66714bb922e92e4b30afe7.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -113.97,
+                            35.29
+                        ],
+                        [
+                            -113.91,
+                            35.29
+                        ],
+                        [
+                            -113.81,
+                            35.42
+                        ],
+                        [
+                            -114.11,
+                            35.55
+                        ],
+                        [
+                            -114.14,
+                            35.46
+                        ],
+                        [
+                            -114.11,
+                            35.34
+                        ],
+                        [
+                            -113.97,
+                            35.29
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.712c7cb92e7b45fe2c66714bb922e92e4b30afe7.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.712c7cb92e7b45fe2c66714bb922e92e4b30afe7.001.1",
+                "areaDesc": "Mohave, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004015"
+                    ],
+                    "UGC": [
+                        "AZC015"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC015"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3f6c8c302eb111c20d9bec1b7a8ab744584efb9b.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.3f6c8c302eb111c20d9bec1b7a8ab744584efb9b.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:07:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T17:50:00-07:00",
+                "effective": "2026-09-24T17:50:00-07:00",
+                "onset": "2026-09-24T17:50:00-07:00",
+                "expires": "2026-09-24T19:00:00-07:00",
+                "ends": "2026-09-24T19:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Las Vegas NV",
+                "headline": "Flood Advisory issued September 24 at 5:50PM PDT until September 24 at 7:00PM PDT by NWS Las Vegas NV",
+                "description": "* WHAT...Flooding caused by excessive rainfall continues.\n\n* WHERE...Central Mohave County in northwestern Arizona...\n\n* WHEN...Until 700 PM MST.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\n\n* ADDITIONAL DETAILS...\n- At 550 PM MST, Doppler radar indicated heavy rain due to\nthunderstorms. Minor flooding is ongoing or expected to begin\nshortly in the advisory area.\n- Additional rainfall amounts up to 0.25 inches are expected over\nthe area. This additional rain will result in minor flooding.\n- Some locations that will experience flooding include...\nMainly rural areas of Central Mohave County.\n- http://www.weather.gov/safety/flood",
+                "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe aware of your surroundings and do not drive on flooded roads.",
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSVEF"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KVEF 250050"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY REMAINS IN EFFECT UNTIL 7 PM MST THIS EVENING"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.CON.KVEF.FA.Y.0096.000000T0000Z-260925T0200Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T19:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fd4b9cb4c158f02eca76db7651018c86a2cf7433.001.1",
+                "replacedAt": "2026-09-24T18:58:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ac8a2e64029ae631cabea611aaca69eaeea594ca.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111.67,
+                            33.32
+                        ],
+                        [
+                            -111.67,
+                            33.49
+                        ],
+                        [
+                            -111.5,
+                            33.65
+                        ],
+                        [
+                            -111.11,
+                            33.45
+                        ],
+                        [
+                            -111.2,
+                            33.26
+                        ],
+                        [
+                            -111.67,
+                            33.25
+                        ],
+                        [
+                            -111.67,
+                            33.32
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ac8a2e64029ae631cabea611aaca69eaeea594ca.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.ac8a2e64029ae631cabea611aaca69eaeea594ca.001.1",
+                "areaDesc": "Rio Verde/Salt River; East Valley; Fountain Hills/East Mesa; Southeast Valley/Queen Creek; Superior; Northwest Pinal County; Apache Junction/Gold Canyon; Pinal/Superstition Mountains",
+                "geocode": {
+                    "SAME": [
+                        "004013",
+                        "004021",
+                        "004007"
+                    ],
+                    "UGC": [
+                        "AZZ547",
+                        "AZZ548",
+                        "AZZ549",
+                        "AZZ551",
+                        "AZZ552",
+                        "AZZ553",
+                        "AZZ555",
+                        "AZZ558"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/forecast/AZZ547",
+                    "https://api.weather.gov/zones/forecast/AZZ548",
+                    "https://api.weather.gov/zones/forecast/AZZ549",
+                    "https://api.weather.gov/zones/forecast/AZZ551",
+                    "https://api.weather.gov/zones/forecast/AZZ552",
+                    "https://api.weather.gov/zones/forecast/AZZ553",
+                    "https://api.weather.gov/zones/forecast/AZZ555",
+                    "https://api.weather.gov/zones/forecast/AZZ558"
+                ],
+                "references": [],
+                "sent": "2026-09-24T16:59:00-07:00",
+                "effective": "2026-09-24T16:59:00-07:00",
+                "onset": "2026-09-24T16:59:00-07:00",
+                "expires": "2026-09-24T17:45:00-07:00",
+                "ends": null,
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Moderate",
+                "certainty": "Observed",
+                "urgency": "Expected",
+                "event": "Special Weather Statement",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Special Weather Statement issued September 24 at 4:59PM MST by NWS Phoenix AZ",
+                "description": "At 459 PM MST, Doppler radar was tracking a strong thunderstorm 8\nmiles north of Queen Valley, or 11 miles east of Gold Canyon, moving\nwest at 20 mph.\n\nHAZARD...Wind gusts up to 40 mph and pea size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects. Minor damage to outdoor objects is\npossible.\n\nLocations impacted include...\nApache Junction, Gold Canyon, Queen Creek, Superstition Mountains,\nLost Dutchman State Park, Goldfield, Canyon Lake, Queen Valley,\nSaguaro Lake, and Tortilla Flat.",
+                "instruction": "Monitor the weather situation closely and be alert for threatening\nweather conditions.",
+                "response": "Execute",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SPSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS85 KPSR 242359"
+                    ],
+                    "NWSheadline": [
+                        "A STRONG THUNDERSTORM WILL IMPACT MARICOPA COUNTY UNTIL 545 PM MST"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T23:58:00-00:00...storm...106DEG...19KT...33.39,-111.27"
+                    ],
+                    "maxWindGust": [
+                        "40 MPH"
+                    ],
+                    "maxHailSize": [
+                        "0.25"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SPS"
+                    ],
+                    "NationalWeatherService": [
+                        "SPS"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8f0fe92f91928fa735bce2690e2e55c9b0598e4e.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111.02,
+                            33.36
+                        ],
+                        [
+                            -111.05,
+                            33.21
+                        ],
+                        [
+                            -111.09,
+                            33.19
+                        ],
+                        [
+                            -111.4,
+                            33.19
+                        ],
+                        [
+                            -111.4,
+                            33.3
+                        ],
+                        [
+                            -111.32,
+                            33.46
+                        ],
+                        [
+                            -111.02,
+                            33.36
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8f0fe92f91928fa735bce2690e2e55c9b0598e4e.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.8f0fe92f91928fa735bce2690e2e55c9b0598e4e.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:22:00-07:00"
+                    },
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4d957675ebb2456b92f8b6a8ad3045302c8ea792.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.4d957675ebb2456b92f8b6a8ad3045302c8ea792.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:33:00-07:00"
+                    },
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3735bf055a9a72575285356ca274204fd40dfef1.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.3735bf055a9a72575285356ca274204fd40dfef1.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:46:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T16:57:00-07:00",
+                "effective": "2026-09-24T16:57:00-07:00",
+                "onset": "2026-09-24T16:57:00-07:00",
+                "expires": "2026-09-24T17:07:00-07:00",
+                "ends": "2026-09-24T17:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 4:57PM MST until September 24 at 5:00PM MST by NWS Phoenix AZ",
+                "description": "The storm which prompted the warning has weakened below severe\nlimits, and has exited the warned area. Therefore, the warning will\nbe allowed to expire. However, gusty winds are still possible with\nthis thunderstorm.",
+                "instruction": null,
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS55 KPSR 242357"
+                    ],
+                    "NWSheadline": [
+                        "SEVERE THUNDERSTORM WARNING WILL EXPIRE AT 5 PM MST FOR PINAL COUNTY"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T23:46:00-00:00...storm...112DEG...15KT...33.3,-111.18"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KPSR.SV.W.0137.000000T0000Z-260925T0000Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T17:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVS"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3735bf055a9a72575285356ca274204fd40dfef1.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111.02,
+                            33.36
+                        ],
+                        [
+                            -111.05,
+                            33.21
+                        ],
+                        [
+                            -111.09,
+                            33.19
+                        ],
+                        [
+                            -111.4,
+                            33.19
+                        ],
+                        [
+                            -111.4,
+                            33.3
+                        ],
+                        [
+                            -111.32,
+                            33.46
+                        ],
+                        [
+                            -111.02,
+                            33.36
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3735bf055a9a72575285356ca274204fd40dfef1.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.3735bf055a9a72575285356ca274204fd40dfef1.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:22:00-07:00"
+                    },
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4d957675ebb2456b92f8b6a8ad3045302c8ea792.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.4d957675ebb2456b92f8b6a8ad3045302c8ea792.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:33:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T16:46:00-07:00",
+                "effective": "2026-09-24T16:46:00-07:00",
+                "onset": "2026-09-24T16:46:00-07:00",
+                "expires": "2026-09-24T17:00:00-07:00",
+                "ends": "2026-09-24T17:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 4:46PM MST until September 24 at 5:00PM MST by NWS Phoenix AZ",
+                "description": "At 446 PM MST, a severe thunderstorm was located over Boyce Thompson\nArboretum, or near Superior, moving northwest at 20 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to\nroofs, siding, and trees.\n\nLocations impacted include...\nSuperior, Boyce Thompson Arboretum, Queen Valley and Florence\nJunction.",
+                "instruction": "Seek shelter inside a well-built structure and stay away from\nwindows. This storm is capable of producing damaging winds and large\nhail.",
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS55 KPSR 242346"
+                    ],
+                    "NWSheadline": [
+                        "SEVERE THUNDERSTORM WARNING REMAINS IN EFFECT UNTIL 5 PM MST FOR PINAL COUNTY"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T23:33:00-00:00...storm...112DEG...15KT...33.28,-111.11"
+                    ],
+                    "windThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxWindGust": [
+                        "60 MPH"
+                    ],
+                    "hailThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxHailSize": [
+                        "1.00"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.CON.KPSR.SV.W.0137.000000T0000Z-260925T0000Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T17:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVS"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8f0fe92f91928fa735bce2690e2e55c9b0598e4e.001.1",
+                "replacedAt": "2026-09-24T16:57:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4d957675ebb2456b92f8b6a8ad3045302c8ea792.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111,
+                            33.35
+                        ],
+                        [
+                            -111.05,
+                            33.17
+                        ],
+                        [
+                            -111.09,
+                            33.15
+                        ],
+                        [
+                            -111.4,
+                            33.12
+                        ],
+                        [
+                            -111.4,
+                            33.3
+                        ],
+                        [
+                            -111.32,
+                            33.46
+                        ],
+                        [
+                            -111,
+                            33.35
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4d957675ebb2456b92f8b6a8ad3045302c8ea792.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.4d957675ebb2456b92f8b6a8ad3045302c8ea792.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T16:22:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T16:33:00-07:00",
+                "effective": "2026-09-24T16:33:00-07:00",
+                "onset": "2026-09-24T16:33:00-07:00",
+                "expires": "2026-09-24T17:00:00-07:00",
+                "ends": "2026-09-24T17:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 4:33PM MST until September 24 at 5:00PM MST by NWS Phoenix AZ",
+                "description": "At 433 PM MST, a severe thunderstorm was located over Boyce Thompson\nArboretum, or over Superior, moving west at 15 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to\nroofs, siding, and trees.\n\nLocations impacted include...\nSuperior, Boyce Thompson Arboretum, Queen Valley, Florence Junction\nand Top-Of-The-World.",
+                "instruction": "Seek shelter inside a well-built structure and stay away from\nwindows. This storm is capable of producing damaging winds and large\nhail.",
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS55 KPSR 242333"
+                    ],
+                    "NWSheadline": [
+                        "SEVERE THUNDERSTORM WARNING REMAINS IN EFFECT UNTIL 5 PM MST FOR PINAL COUNTY"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T23:22:00-00:00...storm...106DEG...13KT...33.25,-111.09"
+                    ],
+                    "windThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxWindGust": [
+                        "60 MPH"
+                    ],
+                    "hailThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxHailSize": [
+                        "1.00"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.CON.KPSR.SV.W.0137.000000T0000Z-260925T0000Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T17:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVS"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8f0fe92f91928fa735bce2690e2e55c9b0598e4e.001.1",
+                "replacedAt": "2026-09-24T16:57:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c862a955124309b76091951ca6e24a03961ed119.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.77,
+                            32.95
+                        ],
+                        [
+                            -110.76,
+                            32.89
+                        ],
+                        [
+                            -110.68,
+                            32.88
+                        ],
+                        [
+                            -110.68,
+                            32.95
+                        ],
+                        [
+                            -110.72,
+                            32.96
+                        ],
+                        [
+                            -110.77,
+                            32.95
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c862a955124309b76091951ca6e24a03961ed119.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.c862a955124309b76091951ca6e24a03961ed119.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [],
+                "sent": "2026-09-24T16:33:00-07:00",
+                "effective": "2026-09-24T16:33:00-07:00",
+                "onset": "2026-09-24T16:33:00-07:00",
+                "expires": "2026-09-24T16:43:00-07:00",
+                "ends": "2026-09-24T16:30:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Flood Advisory issued September 24 at 4:33PM MST until September 24 at 4:30PM MST by NWS Tucson AZ",
+                "description": "The Flood Advisory has expired for a portion of South Central\nArizona, including the following area, Pinal.\n\nThe heavy rain has ended. Flood waters have receded. Small stream\nflooding is no longer expected to pose a threat. Please continue to\nheed remaining road closures.",
+                "instruction": null,
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KTWC 242333"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY HAS EXPIRED"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KTWC.FA.Y.0191.000000T0000Z-260924T2330Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T16:30:00-07:00"
+                    ],
+                    "expiredReferences": [
+                        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.80d6c7e3b0245fc0a1ced22ce409b9ef5c07c660.001.1,2026-09-24T14:24:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111,
+                            33.35
+                        ],
+                        [
+                            -111.05,
+                            33.17
+                        ],
+                        [
+                            -111.09,
+                            33.15
+                        ],
+                        [
+                            -111.4,
+                            33.12
+                        ],
+                        [
+                            -111.4,
+                            33.3
+                        ],
+                        [
+                            -111.32,
+                            33.46
+                        ],
+                        [
+                            -111,
+                            33.35
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.5ba7a969c0141026386f5cf60abbebd6a71a0779.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [],
+                "sent": "2026-09-24T16:22:00-07:00",
+                "effective": "2026-09-24T16:22:00-07:00",
+                "onset": "2026-09-24T16:22:00-07:00",
+                "expires": "2026-09-24T17:00:00-07:00",
+                "ends": "2026-09-24T17:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 4:22PM MST until September 24 at 5:00PM MST by NWS Phoenix AZ",
+                "description": "SVRPSR\n\nThe National Weather Service in Phoenix has issued a\n\n* Severe Thunderstorm Warning for...\nPinal County in southeastern Arizona...\n\n* Until 500 PM MST.\n\n* At 422 PM MST, a severe thunderstorm was located over Superior,\nmoving west at 15 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to\nroofs, siding, and trees.\n\n* Locations impacted include...\nSuperior, Boyce Thompson Arboretum, Queen Valley, Florence Junction\nand Top-Of-The-World.",
+                "instruction": "Seek shelter inside a well-built structure and stay away from\nwindows. This storm is capable of producing damaging winds and large\nhail.",
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVRPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WUUS55 KPSR 242322"
+                    ],
+                    "windThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxWindGust": [
+                        "60 MPH"
+                    ],
+                    "hailThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxHailSize": [
+                        "1.00"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.NEW.KPSR.SV.W.0137.260924T2322Z-260925T0000Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T17:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVR"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8f0fe92f91928fa735bce2690e2e55c9b0598e4e.001.1",
+                "replacedAt": "2026-09-24T16:57:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.447f21b4f230f7ac4f988227671380dce0eddcff.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.76,
+                            32.02
+                        ],
+                        [
+                            -110.71,
+                            32.01
+                        ],
+                        [
+                            -110.69,
+                            32.05
+                        ],
+                        [
+                            -110.68,
+                            32.26
+                        ],
+                        [
+                            -110.85,
+                            32.27
+                        ],
+                        [
+                            -110.89,
+                            32.03
+                        ],
+                        [
+                            -110.76,
+                            32.02
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.447f21b4f230f7ac4f988227671380dce0eddcff.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.447f21b4f230f7ac4f988227671380dce0eddcff.001.1",
+                "areaDesc": "Pima, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004019"
+                    ],
+                    "UGC": [
+                        "AZC019"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC019"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0c03b51e568880db6ba953edf42cfe854e7535cc.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.0c03b51e568880db6ba953edf42cfe854e7535cc.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T13:19:00-07:00"
+                    },
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.40cd792e17b0a24c6b4cc5548ae1147ec3f745a6.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.40cd792e17b0a24c6b4cc5548ae1147ec3f745a6.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T13:48:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T16:09:00-07:00",
+                "effective": "2026-09-24T16:09:00-07:00",
+                "onset": "2026-09-24T16:09:00-07:00",
+                "expires": "2026-09-24T16:19:00-07:00",
+                "ends": "2026-09-24T16:15:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Likely",
+                "urgency": "Immediate",
+                "event": "Flash Flood Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Flash Flood Warning issued September 24 at 4:09PM MST until September 24 at 4:15PM MST by NWS Tucson AZ",
+                "description": "The heavy rain has ended. Flood waters have receded. Flooding is no\nlonger expected to pose a threat. Please continue to heed remaining\nroad closures.",
+                "instruction": null,
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FFSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS75 KTWC 242309"
+                    ],
+                    "NWSheadline": [
+                        "FLASH FLOOD WARNING WILL EXPIRE AT 415 PM MST THIS AFTERNOON FOR EASTERN PIMA COUNTY"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KTWC.FF.W.0231.000000T0000Z-260924T2315Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T16:15:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "FFS"
+                    ],
+                    "NationalWeatherService": [
+                        "FFW"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.32f17db245954ed017e8e6918a2b871e873766dc.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111.33,
+                            33.32
+                        ],
+                        [
+                            -111.27,
+                            33.45
+                        ],
+                        [
+                            -111.13,
+                            33.45
+                        ],
+                        [
+                            -111.01,
+                            33.4
+                        ],
+                        [
+                            -111.06,
+                            33.31
+                        ],
+                        [
+                            -111.01,
+                            33.2
+                        ],
+                        [
+                            -111.05,
+                            33.18
+                        ],
+                        [
+                            -111.26,
+                            33.12
+                        ],
+                        [
+                            -111.34,
+                            33.29
+                        ],
+                        [
+                            -111.33,
+                            33.32
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.32f17db245954ed017e8e6918a2b871e873766dc.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.32f17db245954ed017e8e6918a2b871e873766dc.001.1",
+                "areaDesc": "Superior; Apache Junction/Gold Canyon; Pinal/Superstition Mountains",
+                "geocode": {
+                    "SAME": [
+                        "004021",
+                        "004007",
+                        "004013"
+                    ],
+                    "UGC": [
+                        "AZZ552",
+                        "AZZ555",
+                        "AZZ558"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/forecast/AZZ552",
+                    "https://api.weather.gov/zones/forecast/AZZ555",
+                    "https://api.weather.gov/zones/forecast/AZZ558"
+                ],
+                "references": [],
+                "sent": "2026-09-24T16:07:00-07:00",
+                "effective": "2026-09-24T16:07:00-07:00",
+                "onset": "2026-09-24T16:07:00-07:00",
+                "expires": "2026-09-24T16:30:00-07:00",
+                "ends": null,
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Moderate",
+                "certainty": "Observed",
+                "urgency": "Expected",
+                "event": "Special Weather Statement",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Special Weather Statement issued September 24 at 4:07PM MST by NWS Phoenix AZ",
+                "description": "At 407 PM MST, Doppler radar was tracking a cluster of strong\nthunderstorms extending from 6 miles north of Superior to 6 miles\nsouth of Superior, moving west at 15 mph.\n\nHAZARD...Wind gusts up to 50 mph and pea size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects. Minor damage to outdoor objects is\npossible.\n\nLocations impacted include...\nSuperior, Boyce Thompson Arboretum and Queen Valley.",
+                "instruction": "Monitor the weather situation closely and be alert for threatening\nweather conditions.",
+                "response": "Execute",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SPSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS85 KPSR 242307"
+                    ],
+                    "NWSheadline": [
+                        "A LINE OF STRONG THUNDERSTORMS WILL IMPACT  UNTIL 430 PM MST"
+                    ],
+                    "maxWindGust": [
+                        "50 MPH"
+                    ],
+                    "maxHailSize": [
+                        "0.25"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SPS"
+                    ],
+                    "NationalWeatherService": [
+                        "SPS"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3f6c8c302eb111c20d9bec1b7a8ab744584efb9b.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -113.97,
+                            35.29
+                        ],
+                        [
+                            -113.91,
+                            35.29
+                        ],
+                        [
+                            -113.81,
+                            35.42
+                        ],
+                        [
+                            -114.11,
+                            35.55
+                        ],
+                        [
+                            -114.14,
+                            35.46
+                        ],
+                        [
+                            -114.11,
+                            35.34
+                        ],
+                        [
+                            -113.97,
+                            35.29
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3f6c8c302eb111c20d9bec1b7a8ab744584efb9b.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.3f6c8c302eb111c20d9bec1b7a8ab744584efb9b.001.1",
+                "areaDesc": "Mohave, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004015"
+                    ],
+                    "UGC": [
+                        "AZC015"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC015"
+                ],
+                "references": [],
+                "sent": "2026-09-24T16:07:00-07:00",
+                "effective": "2026-09-24T16:07:00-07:00",
+                "onset": "2026-09-24T16:07:00-07:00",
+                "expires": "2026-09-24T19:00:00-07:00",
+                "ends": "2026-09-24T19:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Las Vegas NV",
+                "headline": "Flood Advisory issued September 24 at 4:07PM PDT until September 24 at 7:00PM PDT by NWS Las Vegas NV",
+                "description": "* WHAT...Flooding caused by excessive rainfall is expected.\n\n* WHERE...Central Mohave County in northwestern Arizona...\n\n* WHEN...Until 700 PM MST.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\n\n* ADDITIONAL DETAILS...\n- At 407 PM MST, Doppler radar indicated heavy rain due to\nthunderstorms. Minor flooding is ongoing or expected to begin\nshortly in the advisory area.\n- Some locations that will experience flooding include...\nMainly rural areas of Central Mohave County.\n- http://www.weather.gov/safety/flood",
+                "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe aware of your surroundings and do not drive on flooded roads.",
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSVEF"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KVEF 242307"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY IN EFFECT UNTIL 7 PM MST THIS EVENING"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.NEW.KVEF.FA.Y.0096.260924T2307Z-260925T0200Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T19:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fd4b9cb4c158f02eca76db7651018c86a2cf7433.001.1",
+                "replacedAt": "2026-09-24T18:58:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.540d2bfb0e144cd08f1f3aa7319a87e96d1dbe29.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -111.12,
+                            33.34
+                        ],
+                        [
+                            -110.68,
+                            33.5
+                        ],
+                        [
+                            -110.67,
+                            33.24
+                        ],
+                        [
+                            -110.9,
+                            33.17
+                        ],
+                        [
+                            -110.95,
+                            33.25
+                        ],
+                        [
+                            -111.03,
+                            33.19
+                        ],
+                        [
+                            -111.19,
+                            33.32
+                        ],
+                        [
+                            -111.12,
+                            33.34
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.540d2bfb0e144cd08f1f3aa7319a87e96d1dbe29.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.540d2bfb0e144cd08f1f3aa7319a87e96d1dbe29.001.1",
+                "areaDesc": "Superior; Pinal/Superstition Mountains; San Carlos; Dripping Springs; Globe/Miami; Southeast Gila County",
+                "geocode": {
+                    "SAME": [
+                        "004021",
+                        "004007",
+                        "004013"
+                    ],
+                    "UGC": [
+                        "AZZ552",
+                        "AZZ558",
+                        "AZZ560",
+                        "AZZ561",
+                        "AZZ562",
+                        "AZZ563"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/forecast/AZZ552",
+                    "https://api.weather.gov/zones/forecast/AZZ558",
+                    "https://api.weather.gov/zones/forecast/AZZ560",
+                    "https://api.weather.gov/zones/forecast/AZZ561",
+                    "https://api.weather.gov/zones/forecast/AZZ562",
+                    "https://api.weather.gov/zones/forecast/AZZ563"
+                ],
+                "references": [],
+                "sent": "2026-09-24T15:43:00-07:00",
+                "effective": "2026-09-24T15:43:00-07:00",
+                "onset": "2026-09-24T15:43:00-07:00",
+                "expires": "2026-09-24T16:30:00-07:00",
+                "ends": null,
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Moderate",
+                "certainty": "Observed",
+                "urgency": "Expected",
+                "event": "Special Weather Statement",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Special Weather Statement issued September 24 at 3:43PM MST by NWS Phoenix AZ",
+                "description": "At 343 PM MST, Doppler radar was tracking a strong thunderstorm 10\nmiles south of Miami, or 12 miles southwest of Globe, moving\nnorthwest at 10 mph.\n\nHAZARD...Wind gusts up to 40 mph and half inch size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Gusty winds could knock down tree limbs and blow around\nunsecured objects. Minor damage to outdoor objects is\npossible.\n\nLocations impacted include...\nGlobe, Superior, Miami, Claypool, Central Heights-Midland City, Top\nOf The World, and Inspiration.",
+                "instruction": "Monitor the weather situation closely and be alert for threatening\nweather conditions.",
+                "response": "Execute",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SPSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS85 KPSR 242243"
+                    ],
+                    "NWSheadline": [
+                        "A STRONG THUNDERSTORM WILL IMPACT  UNTIL 430 PM MST"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T22:42:00-00:00...storm...150DEG...9KT...33.25,-110.88"
+                    ],
+                    "maxWindGust": [
+                        "40 MPH"
+                    ],
+                    "maxHailSize": [
+                        "0.50"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SPS"
+                    ],
+                    "NationalWeatherService": [
+                        "SPS"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7e87a2966ecd9aac1ec109ecf2501be6b089bc24.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.85,
+                            32.67
+                        ],
+                        [
+                            -110.83,
+                            32.55
+                        ],
+                        [
+                            -110.68,
+                            32.55
+                        ],
+                        [
+                            -110.68,
+                            32.62
+                        ],
+                        [
+                            -110.74,
+                            32.68
+                        ],
+                        [
+                            -110.85,
+                            32.67
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7e87a2966ecd9aac1ec109ecf2501be6b089bc24.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.7e87a2966ecd9aac1ec109ecf2501be6b089bc24.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [],
+                "sent": "2026-09-24T15:30:00-07:00",
+                "effective": "2026-09-24T15:30:00-07:00",
+                "onset": "2026-09-24T15:30:00-07:00",
+                "expires": "2026-09-24T15:40:00-07:00",
+                "ends": "2026-09-24T15:30:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Flood Advisory issued September 24 at 3:30PM MST until September 24 at 3:30PM MST by NWS Tucson AZ",
+                "description": "The Flood Advisory has expired for a portion of South Central\nArizona, including the following area, Pinal.\n\nThe heavy rain has ended. Small stream flooding is no longer expected\nto pose a threat. Please continue to heed remaining road closures.",
+                "instruction": null,
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KTWC 242230"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY HAS EXPIRED"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KTWC.FA.Y.0190.000000T0000Z-260924T2230Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T15:30:00-07:00"
+                    ],
+                    "expiredReferences": [
+                        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.2be12a8f083563ff6d5963e4abe22001e6472ff5.001.1,2026-09-24T13:37:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b044dbf9a95fc8c82d7dacf1eff9140d2721f90a.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -112.64,
+                            33.01
+                        ],
+                        [
+                            -112.66,
+                            32.99
+                        ],
+                        [
+                            -112.65,
+                            32.92
+                        ],
+                        [
+                            -112.64,
+                            32.89
+                        ],
+                        [
+                            -112.68,
+                            32.86
+                        ],
+                        [
+                            -112.86,
+                            32.89
+                        ],
+                        [
+                            -112.92,
+                            32.99
+                        ],
+                        [
+                            -112.9,
+                            33.06
+                        ],
+                        [
+                            -112.77,
+                            33.09
+                        ],
+                        [
+                            -112.74,
+                            33.09
+                        ],
+                        [
+                            -112.64,
+                            33.01
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b044dbf9a95fc8c82d7dacf1eff9140d2721f90a.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.b044dbf9a95fc8c82d7dacf1eff9140d2721f90a.001.1",
+                "areaDesc": "Maricopa, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004013"
+                    ],
+                    "UGC": [
+                        "AZC013"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC013"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d04685bf052f760a3831a39f00203f2e70f55c09.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.d04685bf052f760a3831a39f00203f2e70f55c09.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T12:13:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T15:11:00-07:00",
+                "effective": "2026-09-24T15:11:00-07:00",
+                "onset": "2026-09-24T15:11:00-07:00",
+                "expires": "2026-09-24T15:21:00-07:00",
+                "ends": "2026-09-24T15:15:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Flood Advisory issued September 24 at 3:11PM MST until September 24 at 3:15PM MST by NWS Phoenix AZ",
+                "description": "The Flood Advisory will expire at 315 PM MST this afternoon for a\nportion of south central Arizona, including the following area,\nMaricopa.\n\nFlood waters have receded. The heavy rain has ended. Flooding is no\nlonger expected to pose a threat. Please continue to heed remaining\nroad closures.",
+                "instruction": null,
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KPSR 242211"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY WILL EXPIRE AT 315 PM MST THIS AFTERNOON"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KPSR.FA.Y.0067.000000T0000Z-260924T2215Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T15:15:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.29d666180afad202fe0ca209e74700d228a39b35.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.89,
+                            32.01
+                        ],
+                        [
+                            -110.89,
+                            31.9
+                        ],
+                        [
+                            -110.76,
+                            31.9
+                        ],
+                        [
+                            -110.76,
+                            32.02
+                        ],
+                        [
+                            -110.89,
+                            32.03
+                        ],
+                        [
+                            -110.89,
+                            32.01
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.29d666180afad202fe0ca209e74700d228a39b35.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.29d666180afad202fe0ca209e74700d228a39b35.001.1",
+                "areaDesc": "Pima, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004019"
+                    ],
+                    "UGC": [
+                        "AZC019"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC019"
+                ],
+                "references": [],
+                "sent": "2026-09-24T15:00:00-07:00",
+                "effective": "2026-09-24T15:00:00-07:00",
+                "onset": "2026-09-24T15:00:00-07:00",
+                "expires": "2026-09-24T15:10:00-07:00",
+                "ends": "2026-09-24T15:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Likely",
+                "urgency": "Immediate",
+                "event": "Flash Flood Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Flash Flood Warning issued September 24 at 3:00PM MST until September 24 at 3:00PM MST by NWS Tucson AZ",
+                "description": "The heavy rain has ended. Flash flooding is no longer expected to\npose a threat. Please continue to heed remaining road closures.",
+                "instruction": null,
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FFSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS75 KTWC 242200"
+                    ],
+                    "NWSheadline": [
+                        "FLASH FLOOD WARNING HAS EXPIRED FOR EAST CENTRAL PIMA COUNTY"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KTWC.FF.W.0230.000000T0000Z-260924T2200Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T15:00:00-07:00"
+                    ],
+                    "expiredReferences": [
+                        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.13327717a64257a53e37536032dd3daf3c77800c.001.1,2026-09-24T13:40:00-07:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.14157bb530223ce4acda3833dc5d47c63e642e16.001.1,2026-09-24T13:05:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "FFS"
+                    ],
+                    "NationalWeatherService": [
+                        "FFW"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b3725bd8259e4dd569f071c8c1949793892aed4d.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.45,
+                            32.79
+                        ],
+                        [
+                            -110.67,
+                            32.75
+                        ],
+                        [
+                            -110.92,
+                            33.06
+                        ],
+                        [
+                            -110.84,
+                            33.08
+                        ],
+                        [
+                            -110.78,
+                            32.99
+                        ],
+                        [
+                            -110.77,
+                            32.99
+                        ],
+                        [
+                            -110.72,
+                            33.04
+                        ],
+                        [
+                            -110.72,
+                            33.08
+                        ],
+                        [
+                            -110.69,
+                            33.08
+                        ],
+                        [
+                            -110.68,
+                            33.11
+                        ],
+                        [
+                            -110.66,
+                            33.11
+                        ],
+                        [
+                            -110.63,
+                            33.14
+                        ],
+                        [
+                            -110.59,
+                            33.13
+                        ],
+                        [
+                            -110.54,
+                            33.17
+                        ],
+                        [
+                            -110.53,
+                            33.16
+                        ],
+                        [
+                            -110.5,
+                            33.19
+                        ],
+                        [
+                            -110.47,
+                            33.18
+                        ],
+                        [
+                            -110.45,
+                            33.2
+                        ],
+                        [
+                            -110.45,
+                            32.79
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b3725bd8259e4dd569f071c8c1949793892aed4d.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.b3725bd8259e4dd569f071c8c1949793892aed4d.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ab5b6bd55ddcd03fad6938427b6643929c1e170e.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.ab5b6bd55ddcd03fad6938427b6643929c1e170e.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T14:15:00-07:00"
+                    },
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ed06fa8b6303c547edbc5ff3d3259801d92cc9cc.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.ed06fa8b6303c547edbc5ff3d3259801d92cc9cc.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T14:44:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T14:56:00-07:00",
+                "effective": "2026-09-24T14:56:00-07:00",
+                "onset": "2026-09-24T14:56:00-07:00",
+                "expires": "2026-09-24T15:06:00-07:00",
+                "ends": "2026-09-24T15:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 2:56PM MST until September 24 at 3:00PM MST by NWS Tucson AZ",
+                "description": "The storm which prompted the warning has weakened below severe\nlimits, and no longer poses an immediate threat to life or property.\nTherefore, the warning will be allowed to expire.",
+                "instruction": null,
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS55 KTWC 242156"
+                    ],
+                    "NWSheadline": [
+                        "SEVERE THUNDERSTORM WARNING WILL EXPIRE AT 3 PM MST FOR EAST CENTRAL PINAL COUNTY"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T21:44:00-00:00...storm...161DEG...10KT...33.02,-110.72"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KTWC.SV.W.0289.000000T0000Z-260924T2200Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T15:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVS"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ed06fa8b6303c547edbc5ff3d3259801d92cc9cc.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.45,
+                            32.79
+                        ],
+                        [
+                            -110.67,
+                            32.75
+                        ],
+                        [
+                            -110.92,
+                            33.06
+                        ],
+                        [
+                            -110.84,
+                            33.08
+                        ],
+                        [
+                            -110.78,
+                            32.99
+                        ],
+                        [
+                            -110.77,
+                            32.99
+                        ],
+                        [
+                            -110.72,
+                            33.04
+                        ],
+                        [
+                            -110.72,
+                            33.08
+                        ],
+                        [
+                            -110.69,
+                            33.08
+                        ],
+                        [
+                            -110.68,
+                            33.11
+                        ],
+                        [
+                            -110.66,
+                            33.11
+                        ],
+                        [
+                            -110.63,
+                            33.14
+                        ],
+                        [
+                            -110.59,
+                            33.13
+                        ],
+                        [
+                            -110.54,
+                            33.17
+                        ],
+                        [
+                            -110.53,
+                            33.16
+                        ],
+                        [
+                            -110.5,
+                            33.19
+                        ],
+                        [
+                            -110.47,
+                            33.18
+                        ],
+                        [
+                            -110.45,
+                            33.2
+                        ],
+                        [
+                            -110.45,
+                            32.79
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ed06fa8b6303c547edbc5ff3d3259801d92cc9cc.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.ed06fa8b6303c547edbc5ff3d3259801d92cc9cc.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [
+                    {
+                        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ab5b6bd55ddcd03fad6938427b6643929c1e170e.001.1",
+                        "identifier": "urn:oid:2.49.0.1.840.0.ab5b6bd55ddcd03fad6938427b6643929c1e170e.001.1",
+                        "sender": "w-nws.webmaster@noaa.gov",
+                        "sent": "2026-09-24T14:15:00-07:00"
+                    }
+                ],
+                "sent": "2026-09-24T14:44:00-07:00",
+                "effective": "2026-09-24T14:44:00-07:00",
+                "onset": "2026-09-24T14:44:00-07:00",
+                "expires": "2026-09-24T15:00:00-07:00",
+                "ends": "2026-09-24T15:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Update",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 2:44PM MST until September 24 at 3:00PM MST by NWS Tucson AZ",
+                "description": "At 244 PM MST, a severe thunderstorm was located 7 miles north of\nDudleyville, moving north at 10 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to\nroofs, siding, and trees.\n\nLocations impacted include...\nKearny, Dudleyville, Aravaipa Canyon Wilderness and San Carlos\nReservoir.\n\nThis includes the following highways...\nRoute 77 between mile markers 117 and 134. Route 177 between mile\nmarkers 139 and 146.",
+                "instruction": "Seek shelter inside a well-built structure and stay away from\nwindows. This storm is capable of producing damaging winds and large\nhail.",
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS55 KTWC 242144"
+                    ],
+                    "NWSheadline": [
+                        "SEVERE THUNDERSTORM WARNING REMAINS IN EFFECT UNTIL 3 PM MST FOR EAST CENTRAL PINAL COUNTY"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T21:15:00-00:00...storm...161DEG...10KT...32.94,-110.69"
+                    ],
+                    "windThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxWindGust": [
+                        "60 MPH"
+                    ],
+                    "hailThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxHailSize": [
+                        "1.00"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.CON.KTWC.SV.W.0289.000000T0000Z-260924T2200Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T15:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVS"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b3725bd8259e4dd569f071c8c1949793892aed4d.001.1",
+                "replacedAt": "2026-09-24T14:56:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.80d6c7e3b0245fc0a1ced22ce409b9ef5c07c660.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.77,
+                            32.95
+                        ],
+                        [
+                            -110.76,
+                            32.89
+                        ],
+                        [
+                            -110.68,
+                            32.88
+                        ],
+                        [
+                            -110.68,
+                            32.95
+                        ],
+                        [
+                            -110.72,
+                            32.96
+                        ],
+                        [
+                            -110.77,
+                            32.95
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.80d6c7e3b0245fc0a1ced22ce409b9ef5c07c660.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.80d6c7e3b0245fc0a1ced22ce409b9ef5c07c660.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [],
+                "sent": "2026-09-24T14:24:00-07:00",
+                "effective": "2026-09-24T14:24:00-07:00",
+                "onset": "2026-09-24T14:24:00-07:00",
+                "expires": "2026-09-24T16:30:00-07:00",
+                "ends": "2026-09-24T16:30:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Flood Advisory issued September 24 at 2:24PM MST until September 24 at 4:30PM MST by NWS Tucson AZ",
+                "description": "* WHAT...Small stream flooding caused by excessive rainfall is\nexpected.\n\n* WHERE...Eastern Pinal County in southeastern Arizona...\n\n* WHEN...Until 430 PM MST.\n\n* IMPACTS...Minor flooding in low-lying and poor drainage areas.\nDangerous flows over low-water crossings. Some low-water crossings\nmay become impassable.\n\n* ADDITIONAL DETAILS...\n- At 224 PM MST, Doppler radar indicated heavy rain due to\nthunderstorms. This will cause small stream flooding. Between 0.5\nand 1 inch of rain has fallen.\n- Some locations that will experience flooding include...\nDudleyville.\n- This includes Route 77 between mile markers 127 and 132.\n- http://www.weather.gov/safety/flood",
+                "instruction": "Turn around, don't drown when encountering flooded roads. Most flood\ndeaths occur in vehicles.\n\nBe aware of your surroundings and do not drive on flooded roads.",
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KTWC 242124"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY IN EFFECT UNTIL 430 PM MST THIS AFTERNOON"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.NEW.KTWC.FA.Y.0191.260924T2124Z-260924T2330Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T16:30:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c862a955124309b76091951ca6e24a03961ed119.001.1",
+                "replacedAt": "2026-09-24T16:33:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.394b58a31b77c073a87ce69a724ae7423a628af1.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -112.2,
+                            33.11
+                        ],
+                        [
+                            -112.36,
+                            33.08
+                        ],
+                        [
+                            -112.63,
+                            33.01
+                        ],
+                        [
+                            -112.74,
+                            33.09
+                        ],
+                        [
+                            -112.74,
+                            33.4
+                        ],
+                        [
+                            -112.54,
+                            33.44
+                        ],
+                        [
+                            -112.52,
+                            33.44
+                        ],
+                        [
+                            -112.5,
+                            33.43
+                        ],
+                        [
+                            -112.19,
+                            33.35
+                        ],
+                        [
+                            -112.2,
+                            33.11
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.394b58a31b77c073a87ce69a724ae7423a628af1.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.394b58a31b77c073a87ce69a724ae7423a628af1.001.1",
+                "areaDesc": "Maricopa, AZ; Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004013",
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC013",
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC013",
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [],
+                "sent": "2026-09-24T14:21:00-07:00",
+                "effective": "2026-09-24T14:21:00-07:00",
+                "onset": "2026-09-24T14:21:00-07:00",
+                "expires": "2026-09-24T14:31:00-07:00",
+                "ends": "2026-09-24T14:15:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Minor",
+                "certainty": "Likely",
+                "urgency": "Expected",
+                "event": "Flood Advisory",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Phoenix AZ",
+                "headline": "Flood Advisory issued September 24 at 2:21PM MST until September 24 at 2:15PM MST by NWS Phoenix AZ",
+                "description": "The Flood Advisory has expired for portions of south central and\nsoutheast Arizona, including the following areas, in south central\nArizona, Maricopa. In southeast Arizona, Pinal.\n\nThe heavy rain has ended. Flooding is no longer expected to pose a\nthreat. Please continue to heed remaining road closures.",
+                "instruction": null,
+                "response": "Avoid",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "FLSPSR"
+                    ],
+                    "WMOidentifier": [
+                        "WGUS85 KPSR 242121"
+                    ],
+                    "NWSheadline": [
+                        "FLOOD ADVISORY HAS EXPIRED"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KPSR.FA.Y.0066.000000T0000Z-260924T2115Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T14:15:00-07:00"
+                    ],
+                    "expiredReferences": [
+                        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.d37461023e620a2ab77ded31bc91e48105dc27b4.001.1,2026-09-24T12:15:00-07:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.3dcdc8d96f15e2b347f6f43b742f6297e60df030.001.1,2026-09-24T11:12:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "NWS"
+                    ],
+                    "NationalWeatherService": [
+                        "FAY"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ab5b6bd55ddcd03fad6938427b6643929c1e170e.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.45,
+                            32.7
+                        ],
+                        [
+                            -110.61,
+                            32.68
+                        ],
+                        [
+                            -110.92,
+                            33.06
+                        ],
+                        [
+                            -110.84,
+                            33.08
+                        ],
+                        [
+                            -110.78,
+                            32.99
+                        ],
+                        [
+                            -110.77,
+                            32.99
+                        ],
+                        [
+                            -110.72,
+                            33.04
+                        ],
+                        [
+                            -110.72,
+                            33.08
+                        ],
+                        [
+                            -110.69,
+                            33.08
+                        ],
+                        [
+                            -110.68,
+                            33.11
+                        ],
+                        [
+                            -110.66,
+                            33.11
+                        ],
+                        [
+                            -110.63,
+                            33.14
+                        ],
+                        [
+                            -110.59,
+                            33.13
+                        ],
+                        [
+                            -110.54,
+                            33.17
+                        ],
+                        [
+                            -110.53,
+                            33.16
+                        ],
+                        [
+                            -110.5,
+                            33.19
+                        ],
+                        [
+                            -110.47,
+                            33.18
+                        ],
+                        [
+                            -110.45,
+                            33.2
+                        ],
+                        [
+                            -110.45,
+                            32.7
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ab5b6bd55ddcd03fad6938427b6643929c1e170e.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.ab5b6bd55ddcd03fad6938427b6643929c1e170e.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [],
+                "sent": "2026-09-24T14:15:00-07:00",
+                "effective": "2026-09-24T14:15:00-07:00",
+                "onset": "2026-09-24T14:15:00-07:00",
+                "expires": "2026-09-24T15:00:00-07:00",
+                "ends": "2026-09-24T15:00:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 2:15PM MST until September 24 at 3:00PM MST by NWS Tucson AZ",
+                "description": "SVRTWC\n\nThe National Weather Service in Tucson has issued a\n\n* Severe Thunderstorm Warning for...\nEast Central Pinal County in southeastern Arizona...\n\n* Until 300 PM MST.\n\n* At 215 PM MST, a severe thunderstorm was located near Dudleyville,\nmoving north at 10 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to\nroofs, siding, and trees.\n\n* Locations impacted include...\nMammoth, Kearny, Dudleyville, Aravaipa Canyon Wilderness and San\nCarlos Reservoir.\n\nThis includes the following highways...\nRoute 77 between mile markers 115 and 134. Route 177 between mile\nmarkers 139 and 146.",
+                "instruction": "Seek shelter inside a well-built structure and stay away from\nwindows. This storm is capable of producing damaging winds and large\nhail.",
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVRTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WUUS55 KTWC 242115"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T21:15:00-00:00...storm...161DEG...10KT...32.94,-110.69"
+                    ],
+                    "windThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxWindGust": [
+                        "60 MPH"
+                    ],
+                    "hailThreat": [
+                        "RADAR INDICATED"
+                    ],
+                    "maxHailSize": [
+                        "1.00"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.NEW.KTWC.SV.W.0289.260924T2115Z-260924T2200Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T15:00:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVR"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                },
+                "replacedBy": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b3725bd8259e4dd569f071c8c1949793892aed4d.001.1",
+                "replacedAt": "2026-09-24T14:56:00-07:00"
+            }
+        },
+        {
+            "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b776b0f74a2bf868fad8299f07e7a35e3b6c2fb0.001.1",
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -110.67,
+                            32.57
+                        ],
+                        [
+                            -110.82,
+                            32.52
+                        ],
+                        [
+                            -111.06,
+                            32.7
+                        ],
+                        [
+                            -110.67,
+                            32.85
+                        ],
+                        [
+                            -110.67,
+                            32.57
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b776b0f74a2bf868fad8299f07e7a35e3b6c2fb0.001.1",
+                "@type": "wx:Alert",
+                "id": "urn:oid:2.49.0.1.840.0.b776b0f74a2bf868fad8299f07e7a35e3b6c2fb0.001.1",
+                "areaDesc": "Pinal, AZ",
+                "geocode": {
+                    "SAME": [
+                        "004021"
+                    ],
+                    "UGC": [
+                        "AZC021"
+                    ]
+                },
+                "affectedZones": [
+                    "https://api.weather.gov/zones/county/AZC021"
+                ],
+                "references": [],
+                "sent": "2026-09-24T14:15:00-07:00",
+                "effective": "2026-09-24T14:15:00-07:00",
+                "onset": "2026-09-24T14:15:00-07:00",
+                "expires": "2026-09-24T14:25:00-07:00",
+                "ends": "2026-09-24T14:15:00-07:00",
+                "status": "Actual",
+                "messageType": "Alert",
+                "category": "Met",
+                "severity": "Severe",
+                "certainty": "Observed",
+                "urgency": "Immediate",
+                "event": "Severe Thunderstorm Warning",
+                "sender": "w-nws.webmaster@noaa.gov",
+                "senderName": "NWS Tucson AZ",
+                "headline": "Severe Thunderstorm Warning issued September 24 at 2:15PM MST until September 24 at 2:15PM MST by NWS Tucson AZ",
+                "description": "The storm which prompted the warning has weakened below severe\nlimits, and no longer poses an immediate threat to life or property.\nTherefore, the warning has been allowed to expire.",
+                "instruction": null,
+                "response": "Shelter",
+                "note": null,
+                "parameters": {
+                    "AWIPSidentifier": [
+                        "SVSTWC"
+                    ],
+                    "WMOidentifier": [
+                        "WWUS55 KTWC 242115"
+                    ],
+                    "NWSheadline": [
+                        "SEVERE THUNDERSTORM WARNING HAS EXPIRED FOR SOUTHEASTERN PINAL COUNTY"
+                    ],
+                    "eventMotionDescription": [
+                        "2026-09-24T20:51:00-00:00...storm...158DEG...9KT...32.67,-110.81"
+                    ],
+                    "BLOCKCHANNEL": [
+                        "EAS",
+                        "NWEM",
+                        "CMAS"
+                    ],
+                    "EAS-ORG": [
+                        "WXR"
+                    ],
+                    "VTEC": [
+                        "/O.EXP.KTWC.SV.W.0288.000000T0000Z-260924T2115Z/"
+                    ],
+                    "eventEndingTime": [
+                        "2026-09-24T14:15:00-07:00"
+                    ],
+                    "expiredReferences": [
+                        "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.a87d9cae9e9cba7e840ef5eab50d44aa2e396c79.001.1,2026-09-24T13:51:00-07:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.a255b220d59dab4ecfb71e3f5305f752447e62e4.001.1,2026-09-24T13:25:00-07:00"
+                    ]
+                },
+                "scope": "Public",
+                "code": "IPAWSv1.0",
+                "language": "en-US",
+                "web": "http://www.weather.gov",
+                "eventCode": {
+                    "SAME": [
+                        "SVS"
+                    ],
+                    "NationalWeatherService": [
+                        "SVW"
+                    ]
+                }
+            }
+        }
+    ],
+    "title": "Watches, warnings, and advisories for Arizona",
+    "updated": "2026-09-26T20:17:23+00:00",
+    "pagination": {
+        "next": "https://api.weather.gov/alerts?area%5B0%5D=AZ&limit=25&cursor=eyJ0IjoxNzkwMjg0NTAwLCJpIjoidXJuOm9pZDoyLjQ5LjAuMS44NDAuMC5iNzc2YjBmNzRhMmJmODY4ZmFkODI5OWYwN2U3YTM1ZTNiNmMyZmIwLjAwMS4xIn0%3D"
+    }
+}

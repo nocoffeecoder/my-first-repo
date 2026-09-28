@@ -1,0 +1,62 @@
+{
+ "note": "BUILD.md \u00a716.6. Switch points (iPhone installed): region 1.59, state 4.40, county 6.29, local 7.76; GAP 0.25.",
+ "switchPoints": {
+  "region": 1.59,
+  "state": 4.4,
+  "county": 6.29,
+  "local": 7.76
+ },
+ "gap": 0.25,
+ "cases": [
+  {
+   "current": null,
+   "zoom": 1.2,
+   "expected": "world"
+  },
+  {
+   "current": null,
+   "zoom": 3.0,
+   "expected": "region"
+  },
+  {
+   "current": "world",
+   "zoom": 1.7,
+   "expected": "world"
+  },
+  {
+   "current": "world",
+   "zoom": 1.9,
+   "expected": "region"
+  },
+  {
+   "current": "state",
+   "zoom": 4.2,
+   "expected": "state"
+  },
+  {
+   "current": "state",
+   "zoom": 4.1,
+   "expected": "region"
+  },
+  {
+   "current": "county",
+   "zoom": 7.9,
+   "expected": "county"
+  },
+  {
+   "current": "county",
+   "zoom": 8.05,
+   "expected": "local"
+  },
+  {
+   "current": "local",
+   "zoom": 7.6,
+   "expected": "local"
+  },
+  {
+   "current": "local",
+   "zoom": 7.4,
+   "expected": "county"
+  }
+ ]
+}

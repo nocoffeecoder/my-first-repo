@@ -1,0 +1,55 @@
+{
+ "note": "BUILD.md \u00a713. pass = every time/date/weekday/number/road token in the summary appears in the original.",
+ "cases": [
+  {
+   "original": "until 5:15 PM MST",
+   "summary": "until 5:15 PM",
+   "pass": true
+  },
+  {
+   "original": "until 5:15 PM MST",
+   "summary": "until 5 PM",
+   "pass": false
+  },
+  {
+   "original": "Temperatures up to 115 expected",
+   "summary": "temperatures up to 115",
+   "pass": true
+  },
+  {
+   "original": "Temperatures up to 115 expected",
+   "summary": "temperatures up to 116",
+   "pass": false
+  },
+  {
+   "original": "through Tuesday evening",
+   "summary": "through Tuesday evening",
+   "pass": true
+  },
+  {
+   "original": "through Tuesday evening",
+   "summary": "through Wednesday",
+   "pass": false
+  },
+  {
+   "original": "I-17 northbound at Happy Valley Rd",
+   "summary": "Northbound I-17 at Happy Valley Road",
+   "pass": true
+  },
+  {
+   "original": "1,200 customers",
+   "summary": "1200 customers",
+   "pass": true
+  },
+  {
+   "original": "At 559 PM MST, Doppler radar was tracking a strong thunderstorm",
+   "summary": "At 5:59 PM, radar tracked a strong thunderstorm",
+   "pass": true
+  },
+  {
+   "original": "At 559 PM MST, Doppler radar was tracking a strong thunderstorm",
+   "summary": "At 5:50 PM, radar tracked a strong thunderstorm",
+   "pass": false
+  }
+ ]
+}

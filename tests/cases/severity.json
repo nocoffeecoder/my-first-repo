@@ -1,0 +1,123 @@
+{
+ "note": "BUILD.md \u00a711.1. NWS: the event word wins over the severity field. Other sources as listed.",
+ "cases": [
+  {
+   "source": "nws",
+   "event": "Flood Watch",
+   "severity": "Severe",
+   "expected": "orange"
+  },
+  {
+   "source": "nws",
+   "event": "Flood Advisory",
+   "severity": "Minor",
+   "expected": "yellow"
+  },
+  {
+   "source": "nws",
+   "event": "Special Weather Statement",
+   "severity": "Moderate",
+   "expected": "yellow"
+  },
+  {
+   "source": "nws",
+   "event": "Severe Thunderstorm Warning",
+   "severity": "Severe",
+   "expected": "red"
+  },
+  {
+   "source": "nws",
+   "event": "Flash Flood Warning",
+   "severity": "Severe",
+   "expected": "red"
+  },
+  {
+   "source": "nws",
+   "event": "Air Quality Alert",
+   "severity": "Unknown",
+   "expected": "yellow"
+  },
+  {
+   "source": "nws",
+   "event": "Hydrologic Outlook",
+   "severity": "Unknown",
+   "expected": "gray"
+  },
+  {
+   "source": "nws",
+   "event": "Flash Flood Emergency",
+   "severity": "Extreme",
+   "expected": "red"
+  },
+  {
+   "source": "nws",
+   "event": "Dust Storm Warning",
+   "severity": "Severe",
+   "expected": "red"
+  },
+  {
+   "source": "az511",
+   "event": "closures",
+   "IsFullClosure": true,
+   "expected": "red"
+  },
+  {
+   "source": "az511",
+   "event": "closures",
+   "IsFullClosure": false,
+   "expected": "orange"
+  },
+  {
+   "source": "az511",
+   "event": "roadwork",
+   "LanesAffected": "2 right lanes",
+   "expected": "yellow"
+  },
+  {
+   "source": "az511_alert",
+   "HighImportance": true,
+   "expected": "orange"
+  },
+  {
+   "source": "az511_alert",
+   "HighImportance": false,
+   "expected": "yellow"
+  },
+  {
+   "source": "gdacs",
+   "alertlevel": "Orange",
+   "expected": "orange",
+   "badge": "Orange alert"
+  },
+  {
+   "source": "gdacs",
+   "alertlevel": "Red",
+   "expected": "red",
+   "badge": "Red alert"
+  },
+  {
+   "source": "usgs",
+   "mag": 5.6,
+   "alert": null,
+   "expected": "gray",
+   "badge": "M 5.6"
+  },
+  {
+   "source": "usgs",
+   "mag": 7.1,
+   "alert": "orange",
+   "expected": "orange",
+   "badge": "M 7.1"
+  },
+  {
+   "source": "maricopa_rss",
+   "title": "Extreme Heat Warning: cooling centers open",
+   "expected": "orange"
+  },
+  {
+   "source": "maricopa_rss",
+   "title": "Get Ready for a Day of Fall Fun at the 2026 Spooktacular Fall Festival!",
+   "expected": "gray"
+  }
+ ]
+}

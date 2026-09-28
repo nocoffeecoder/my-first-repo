@@ -1,0 +1,166 @@
+{
+ "note": "Places are Gazetteer names (map to GEOIDs in the test). Maricopa = Maricopa city 0444410. Titles from 12News/azfamily/Cronkite on Sept 26, 2026 or synthetic. BUILD.md §12.",
+ "cases": [
+  {
+   "text": "Teenager arrested by Mesa Police for allegedly shooting woman during gun sale gone wrong at Bass Pro Shops",
+   "places": [
+    "Mesa"
+   ],
+   "counties": []
+  },
+  {
+   "text": "1 critically injured, 3 others hospitalized after crash in west Phoenix, police say",
+   "places": [
+    "Phoenix"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Ahwatukee neighbors protest massive AI data center near their homes",
+   "places": [
+    "Phoenix"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Confirmed case of measles reported in Pima County",
+   "places": [],
+   "counties": [
+    "04019"
+   ]
+  },
+  {
+   "text": "Suspect hurt in shooting involving law enforcement outside historic Rock Springs Cafe in Black Canyon City",
+   "places": [
+    "Black Canyon City"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Motorcyclist critically injured after colliding with Peoria fire truck, 2 other vehicles",
+   "places": [
+    "Peoria"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Every dog in this Maricopa County shelter was adopted... Except 'Lucky.'",
+   "places": [],
+   "counties": [
+    "04013"
+   ]
+  },
+  {
+   "text": "Several Valley freeways will have closures this weekend",
+   "places": [],
+   "counties": [
+    "04013"
+   ]
+  },
+  {
+   "text": "Lightning damages elementary school in Buckeye",
+   "places": [
+    "Buckeye"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Gilbert's Clare House to become a gastropub centerpiece after near demolition",
+   "places": [
+    "Gilbert"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Pursuit in Tombstone exposes Phoenix-area car theft ring",
+   "places": [
+    "Tombstone",
+    "Phoenix"
+   ],
+   "counties": []
+  },
+  {
+   "text": "East Valley summit focuses on teen violence, mental health and online threats",
+   "places": [],
+   "counties": [
+    "04013"
+   ]
+  },
+  {
+   "text": "Marvin Harrison Jr.’s lack of production with Arizona Cardinals raises concerns",
+   "places": [],
+   "counties": []
+  },
+  {
+   "text": "Congress passes spending bill",
+   "places": [],
+   "counties": []
+  },
+  {
+   "text": "Maricopa County Superior Court judge rules on water case",
+   "places": [],
+   "counties": [
+    "04013"
+   ]
+  },
+  {
+   "text": "Surprise! Free museum day returns",
+   "places": [],
+   "counties": []
+  },
+  {
+   "text": "Surprise police investigate overnight break-in",
+   "places": [
+    "Surprise"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Crews battle brush fire near Globe",
+   "places": [
+    "Globe"
+   ],
+   "counties": []
+  },
+  {
+   "text": "New York wildfire smoke drifts south",
+   "places": [],
+   "counties": []
+  },
+  {
+   "text": "Oracle opens new office in Tempe",
+   "places": [
+    "Tempe"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Maricopa police warn of flooded washes",
+   "places": [
+    "Maricopa"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Here's how much rain fell across the Phoenix area Thursday morning",
+   "places": [
+    "Phoenix"
+   ],
+   "counties": []
+  },
+  {
+   "text": "Valley fever cases rise in Pima County",
+   "places": [],
+   "counties": [
+    "04019"
+   ]
+  },
+  {
+   "text": "Rain soaks the Valley overnight",
+   "places": [],
+   "counties": [
+    "04013"
+   ]
+  }
+ ]
+}

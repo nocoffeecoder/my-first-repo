@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03050b">
+<!-- Installed on iPhone: the map runs under the status bar, whose text is always white -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Local Pulse — news by level prototype</title>
+<!--
+  Local Pulse visual prototype v2: news by level (reference only).
+  Written with AI assistance (Claude). If any of this code ends up in your contest
+  app, log it in your AI-use log and disclose it, as the 2026 CAC rules require.
+
+  Open in Chrome or Safari with an internet connection, then zoom the map:
+  World (<2) -> Region (2-4.5) -> State (4.5-6.5) -> County (6.5-8) -> Local (8+, within 20 mi of your place).
+  Start points (add to the URL):
+    #globe      first open: spinning globe + welcome card
+    #address    first open after "Don't allow": address box with suggestions
+    #detail     alert detail page      #sources  Sources & AI page      #why  "Why hidden" sheet
+    #empty      Near you with no alerts      #away  zoomed in far from your place (Tucson)
+    #world      globe with the World news pill
+    #worldnews  World news panel open
+    #region  #state  #county  #local  #local-alerts
+  Options: ?nospin   ?spin=120 (seconds per turn)   ?imagery=truecolor
+           ?safe=59,34  (pretend to be an installed iPhone app: top and bottom safe areas in px)
+
+  Content: NEWS HEADLINES ARE MADE-UP SAMPLES with generic outlet names.
+  Alerts at World and Region are real items from public feeds on Sept 26, 2026
+  (NASA EONET, USGS, GDACS, OpenFEMA). Local alerts are samples.
+  The sample "place" is downtown Phoenix, not anyone's address.
+
+  Data and imagery:
+    Base map: OpenFreeMap (OpenMapTiles, OpenStreetMap contributors)
+    Globe imagery: NASA Blue Marble via NASA GIBS (public domain)
+    Boundaries: U.S. Census Bureau TIGERweb (public domain)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.css">
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.js"></script>
+<style>
+  :root{
+    --space-0:#03050b; --space-1:#0a1226; --space-2:#13224a;
+    --surface:#ffffff; --surface-2:#f4f6f8; --line:#e3e7ec;
+    --ink:#0b1220; --ink-2:#4a5568; --ink-3:#6b7684;
+    --accent:#0891b2; --accent-text:#0e7490; --focus:#22d3ee;
+    --sev-red:#b3261e;    --sev-red-bg:#fdecea;
+    --sev-orange:#b54708; --sev-orange-bg:#fef0e6;
+    --sev-yellow:#8a6d00; --sev-yellow-bg:#fff8db;
+    --sev-gray:#5f6368;   --sev-gray-bg:#f1f3f4;
+    --r-card:14px; --r-sheet:22px; --r-pill:999px;
+    --shadow-sheet:0 -10px 30px rgba(3,5,11,.18);
+    --shadow-float:0 6px 18px rgba(3,5,11,.16);
+    --t-ui:180ms cubic-bezier(.2,.8,.2,1);
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --sheet-h: 48%;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--space-0);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  body{overscroll-behavior:none}
+  button{font:inherit}
+  #app{position:fixed;inset:0;height:100dvh;overflow:hidden}
+  #stars{position:absolute;inset:0;z-index:0}
+  #map{position:absolute;inset:0;z-index:1;background:transparent}
+  .maplibregl-ctrl-attrib{font-size:10px;background:rgba(255,255,255,.72)!important}
+  body.dark .maplibregl-ctrl-attrib{background:rgba(3,5,11,.55)!important;color:#cbd5e1}
+  body.dark .maplibregl-ctrl-attrib a{color:#e2e8f0}
+  body.sheet-on .maplibregl-ctrl-bottom-right, body.sheet-on .maplibregl-ctrl-bottom-left{bottom:calc(var(--sheet-h) + 4px)}
+  body.lv-world:not(.sheet-on) .maplibregl-ctrl-bottom-right, body.lv-world:not(.sheet-on) .maplibregl-ctrl-bottom-left{bottom:84px}
+
+  /* ---------- first open ---------- */
+  .brand{position:absolute;top:calc(18px + var(--safe-t));left:20px;z-index:3;display:none;align-items:center;gap:10px;color:#e8f6fb;font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .pulse{position:relative;width:22px;height:22px}
+  .pulse i{position:absolute;inset:6px;border-radius:50%;background:#22d3ee}
+  .pulse b{position:absolute;inset:0;border-radius:50%;border:2px solid #22d3ee;opacity:.55;animation:ring 2.4s ease-out infinite}
+  @keyframes ring{0%{transform:scale(.45);opacity:.7}100%{transform:scale(1.25);opacity:0}}
+  .welcome{position:absolute;left:12px;right:12px;bottom:calc(12px + var(--safe-b));z-index:3;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:24px;padding:22px 20px 16px;box-shadow:var(--shadow-float);display:none}
+  .welcome h1{margin:0 0 6px;font-size:24px;line-height:1.2;letter-spacing:-.02em}
+  .welcome p{margin:0 0 18px;color:var(--ink-2);font-size:15px;line-height:1.45}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border-radius:14px;border:0;font:600 16px Inter,system-ui;cursor:pointer;transition:transform var(--t-ui)}
+  .btn:active{transform:scale(.98)}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-secondary{background:#fff;color:var(--ink);margin-top:10px;border:1.5px solid var(--line)}
+  .fine{margin:12px 0 0;text-align:center;font-size:12px;color:var(--ink-3)}
+  .fine svg{vertical-align:-2px;margin-right:4px}
+  body.first .brand{display:flex}
+  body.first .welcome{display:block}
+  body.first .top, body.first .pill, body.first .sheet, body.first .mock{display:none!important}
+
+  /* White status-bar text needs a dark scrim over light maps (installed app only; height is 0 in a browser tab) */
+  .scrim{position:absolute;top:0;left:0;right:0;height:calc(var(--safe-t) + 6px);z-index:4;pointer-events:none;display:none;background:linear-gradient(rgba(3,5,11,.55),rgba(3,5,11,0))}
+  body:not(.dark):not(.first) .scrim{display:block}
+  /* Small pills keep a 44 px tap area */
+  .crumb,.tab,.chip{position:relative}
+  .crumb::after{content:'';position:absolute;inset:-7px -3px}
+  .tab::after{content:'';position:absolute;inset:-5px 0}
+  .chip::after{content:'';position:absolute;inset:-6px -3px}
+
+  /* ---------- top bar: search + level breadcrumb ---------- */
+  .top{position:absolute;top:calc(10px + var(--safe-t));left:12px;right:12px;z-index:3}
+  .search{display:flex;align-items:center;gap:10px;height:48px;padding:0 8px 0 14px;background:var(--surface);border-radius:var(--r-pill);box-shadow:var(--shadow-float);color:var(--ink-3);font-size:16px}
+  .search .grow{flex:1}
+  .locbtn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);color:var(--ink);border:0;cursor:pointer}
+  .crumbs{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-left:2px}
+  .crumbs.fade{-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%);mask-image:linear-gradient(90deg,transparent,#000 14%)}
+  .crumbs::-webkit-scrollbar{display:none}
+  .crumb{flex:none;height:30px;padding:0 12px;display:flex;align-items:center;border-radius:var(--r-pill);background:rgba(255,255,255,.94);box-shadow:0 1px 3px rgba(0,0,0,.12);font-size:13px;font-weight:500;color:var(--ink-2);border:0;cursor:pointer}
+  .crumb.on{background:var(--ink);color:#fff}
+  body.dark .crumb.on{background:#e8f6fb;color:var(--ink)}
+  .sep{flex:none;align-self:center;color:#94a3b8;font-size:12px}
+  body.lv-world:not(.sheet-on) .mock{display:none}
+  .mock{position:absolute;z-index:4;bottom:calc(var(--sheet-h) + 10px);left:12px;font:600 11px Inter,system-ui;color:#7c2d12;background:#ffedd5;border:1px solid #fdba74;padding:4px 8px;border-radius:6px}
+
+  /* ---------- World news pill ---------- */
+  .pill{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(20px + var(--safe-b));z-index:3;display:none;align-items:center;gap:10px;height:52px;padding:0 10px 0 16px;border-radius:var(--r-pill);background:rgba(248,250,252,.96);color:var(--ink);box-shadow:0 8px 28px rgba(0,0,0,.45);border:0;cursor:pointer;font-weight:600;font-size:16px;white-space:nowrap}
+  .pill .n{min-width:28px;height:28px;padding:0 8px;border-radius:var(--r-pill);background:var(--ink);color:#fff;display:grid;place-items:center;font-size:13px}
+  .pill:active{transform:translateX(-50%) scale(.97)}
+  body.lv-world:not(.sheet-on) .pill{display:flex}
+
+  /* ---------- sheet ---------- */
+  .sheet{position:absolute;left:0;right:0;bottom:0;z-index:3;height:var(--sheet-h);background:var(--surface);border-radius:var(--r-sheet) var(--r-sheet) 0 0;box-shadow:var(--shadow-sheet);display:none;flex-direction:column;padding-bottom:var(--safe-b)}
+  body.sheet-on .sheet{display:flex}
+  .grab{flex:none;width:40px;height:5px;border-radius:3px;background:#cbd5e1;margin:8px auto 2px;border:0;padding:0;cursor:pointer}
+  .sheet-h{padding:4px 16px 8px;flex:none;display:flex;align-items:flex-start;gap:12px}
+  .sheet-h .t{flex:1;min-width:0}
+  .sheet-h h2{margin:0;font-size:20px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+  .lvl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text);background:#e0f7fb;border-radius:6px;padding:3px 6px}
+  .sheet-h .sub{margin-top:3px;font-size:13px;color:var(--ink-3)}
+  .x{flex:none;width:32px;height:32px;border-radius:50%;border:0;background:var(--surface-2);color:var(--ink-2);display:none;place-items:center;cursor:pointer}
+  body.lv-world .x{display:grid}
+  .tabs{flex:none;display:flex;margin:0 16px 10px;padding:3px;background:var(--surface-2);border-radius:12px}
+  .tab{flex:1;height:34px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:600;color:var(--ink-2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+  .tab.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .tab .c{font-size:12px;color:var(--ink-3);font-weight:600}
+  .chips{flex:none;display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none;border-bottom:1px solid var(--line);-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;display:flex;align-items:center;height:32px;padding:0 12px;border-radius:var(--r-pill);border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--ink-2);background:#fff}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .list{overflow-y:auto;padding:12px 12px 16px;display:flex;flex-direction:column;gap:10px}
+  .foot{text-align:center;font-size:12px;color:var(--ink-3);padding:4px 0 2px}
+  .foot a{color:var(--accent-text);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+  /* news card: no severity color, no summary */
+  .ncard{flex:none;display:block;text-decoration:none;color:inherit;border-radius:var(--r-card);border:1px solid var(--line);background:#fff;padding:11px 14px 12px}
+  .nmeta{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3);margin-bottom:5px}
+  .nmeta b{font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .nmeta span{white-space:nowrap}
+  .nfoot{margin-top:6px;display:flex;align-items:center;gap:10px;font-size:12px}
+  .nmeta .sp{flex:1}
+  .smp{font-size:10px;font-weight:700;letter-spacing:.04em;color:#9a3412;background:#ffedd5;border-radius:4px;padding:1px 5px}
+  .ncard h3{margin:0;font-size:16px;line-height:1.3;letter-spacing:-.005em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .nplace{margin-top:6px;font-size:12px;font-weight:500;color:var(--accent-text);display:flex;align-items:center;gap:4px}
+  .merged{color:var(--ink-3);font-weight:500}
+  .nplace{margin-top:0}
+
+  /* alert card (official) */
+  .card{flex:none;display:flex;border-radius:var(--r-card);border:1px solid var(--line);background:#fff;overflow:hidden}
+  .bar{width:6px;flex:none}
+  .cbody{padding:11px 14px;flex:1;min-width:0}
+  .row1{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .badge{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:700}
+  .cat{font-size:12px;color:var(--ink-3)}
+  .card h3{margin:0 0 4px;font-size:16px;line-height:1.3}
+  .card .meta{margin-top:6px;font-size:12px;color:var(--ink-3)}
+  .card .meta b{font-weight:600;color:var(--ink-2)}
+  .red .bar{background:var(--sev-red)} .red .badge{background:var(--sev-red-bg);color:var(--sev-red)}
+  .orange .bar{background:var(--sev-orange)} .orange .badge{background:var(--sev-orange-bg);color:var(--sev-orange)}
+  .yellow .bar{background:#c9a100} .yellow .badge{background:var(--sev-yellow-bg);color:var(--sev-yellow)}
+  .gray .bar{background:#9aa0a6} .gray .badge{background:var(--sev-gray-bg);color:var(--sev-gray)}
+
+  .sethome{position:absolute;z-index:3;left:50%;transform:translateX(-50%);bottom:calc(var(--sheet-h) + 12px);display:none;height:40px;padding:0 16px;border-radius:var(--r-pill);border:0;background:var(--ink);color:#fff;font-weight:600;font-size:14px;box-shadow:var(--shadow-float);cursor:pointer}
+  body.away .sethome{display:block}
+  body.away .mock{display:none}
+
+  /* map markers */
+  .mk{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+  .mk-news{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--ink);border:1.5px solid #cbd5e1;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .home{width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 6px rgba(8,145,178,.25),0 2px 6px rgba(0,0,0,.3)}
+  body:not(.lv-world):not(.lv-region) .g-world{display:none}
+  body:not(.lv-county):not(.lv-local) .g-local{display:none}
+
+  /* ---------- full-screen pages: notice detail, sources ---------- */
+  .page{position:absolute;inset:0;z-index:6;background:var(--surface);display:none;flex-direction:column}
+  #app[data-ov="detail"] .detail, #app[data-ov="sources"] .sources{display:flex}
+  /* Installed iPhone: status-bar text is white, so white pages get a dark strip behind it (0 px tall in a browser tab) */
+  .page::before{content:'';position:absolute;top:0;left:0;right:0;height:var(--safe-t);background:var(--ink);z-index:1}
+  .ph{flex:none;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--safe-t)) 8px 8px;border-bottom:1px solid var(--line);background:var(--surface)}
+  .ph .pt{flex:1;text-align:center;font-weight:600;font-size:16px}
+  .icon-btn{width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer}
+  .pbody{flex:1;overflow-y:auto;padding:16px 16px calc(24px + var(--safe-b))}
+  .pbody h1{margin:8px 0 4px;font-size:24px;line-height:1.2;letter-spacing:-.02em}
+  .when{font-size:15px;font-weight:600;color:var(--ink)}
+  .agency{margin-top:4px;font-size:13px;color:var(--ink-3)}
+  .agency b{color:var(--ink-2);font-weight:600}
+  .sumbox{margin:16px 0;padding:14px;border-radius:var(--r-card);background:var(--surface-2)}
+  .sumlabel{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+  .sumbox p{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+  .ailabel{margin-top:10px;font-size:12px;line-height:1.45;color:var(--ink-3)}
+  .wrows{margin:0 0 16px;display:grid;grid-template-columns:76px 1fr;gap:10px 12px;font-size:14px;line-height:1.45}
+  .wrows dt{font-weight:700;color:var(--ink-2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
+  .wrows dd{margin:0;color:var(--ink)}
+  .pbody h2{font-size:16px;margin:18px 0 6px}
+  .pbody p.txt{margin:0 0 14px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+  .srcline{font-size:12px;color:var(--ink-3);margin:8px 0 16px}
+  .callout{margin-top:14px;padding:12px 14px;border-radius:12px;background:#fdecea;color:#8c1d18;font-size:13px;font-weight:600;display:flex;gap:8px;align-items:flex-start}
+  .exact{display:none;margin:0 0 12px;padding:12px;border:1px dashed var(--line);border-radius:12px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink-2);white-space:pre-wrap}
+  .exact.on{display:block}
+  /* sources */
+  .sgroup{margin:4px 0 18px}
+  .sgroup h2{margin:6px 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+  .srow{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:5px;background:#1e8e3e;box-shadow:0 0 0 3px rgba(30,142,62,.15)}
+  .dot.amber{background:#c77700;box-shadow:0 0 0 3px rgba(199,119,0,.18)}
+  .srow .n{font-weight:600;font-size:15px}
+  .srow .d{font-size:13px;color:var(--ink-3);margin-top:2px}
+  .srow .d.warn{color:#8a4b00;font-weight:600}
+  .prose{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0 0 12px}
+  .credits{font-size:12px;color:var(--ink-3);line-height:1.5}
+  .listlinks{display:flex;justify-content:center;gap:14px;font-size:12px;padding:8px 0 4px}
+  .listlinks a{color:var(--accent-text);font-weight:600;text-decoration:none}
+  /* why sheet */
+  .modal{position:absolute;inset:0;z-index:7;display:none;background:rgba(3,5,11,.42);align-items:flex-end}
+  #app[data-ov="why"] .modal{display:flex}
+  .msheet{width:100%;background:var(--surface);border-radius:var(--r-sheet) var(--r-sheet) 0 0;padding:8px 20px calc(20px + var(--safe-b));box-shadow:var(--shadow-sheet)}
+  .msheet h2{margin:10px 0 8px;font-size:20px}
+  .msheet p{margin:0 0 12px;font-size:15px;line-height:1.5;color:var(--ink-2)}
+  .counts2{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+  .counts2 span{height:30px;padding:0 12px;border-radius:var(--r-pill);background:var(--surface-2);display:flex;align-items:center;font-size:13px;font-weight:600;color:var(--ink-2)}
+  .toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:15px;font-weight:500}
+  .sw{flex:none;width:51px;height:31px;border-radius:16px;background:#d5dae0;position:relative}
+  .sw::after{content:'';position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+  .alink{color:var(--accent-text);font-weight:600;font-size:15px;text-decoration:underline;text-underline-offset:2px}
+  /* empty state */
+  .empty{flex:none;border:1px solid var(--line);border-radius:var(--r-card);padding:20px 16px;text-align:center}
+  .empty .ic{width:44px;height:44px;border-radius:50%;background:#e6f4ea;color:#1e8e3e;display:grid;place-items:center;margin:0 auto 10px}
+  .empty h3{margin:0 0 4px;font-size:17px}
+  .empty p{margin:0 0 14px;font-size:13px;color:var(--ink-3)}
+  .empty .btn{min-height:44px;font-size:15px;margin:0}
+  /* address entry */
+  .addr{display:none}
+  body.first.addr-on .welcome .wmain{display:none}
+  body.first.addr-on .welcome .addr{display:block}
+  .field{display:flex;align-items:center;gap:10px;height:52px;padding:0 14px;border:2px solid var(--ink);border-radius:14px;font-size:16px;color:var(--ink)}
+  .field .caret{width:2px;height:22px;background:var(--accent);margin-left:-8px}
+  .sugg{list-style:none;margin:8px 0 12px;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .sugg li{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 14px;border-bottom:1px solid var(--line);font-size:15px}
+  .sugg li:last-child{border-bottom:0}
+  .sugg li span{font-size:12px;color:var(--ink-3)}
+  .sugg li b{font-weight:700}
+  .note{font-size:12px;line-height:1.45;color:var(--ink-3);margin:0 0 12px;padding:10px 12px;background:var(--surface-2);border-radius:10px}
+  @media (prefers-reduced-motion: reduce){ .pulse b{animation:none} }
+</style>
+</head>
+<body class="first dark">
+<div id="app">
+  <canvas id="stars"></canvas>
+  <div id="map" aria-label="Map" role="region"></div>
+  <div class="scrim"></div>
+
+  <div class="brand"><span class="pulse"><b></b><i></i></span>Local Pulse</div>
+  <section class="welcome" aria-labelledby="w-title">
+    <div class="wmain">
+    <h1 id="w-title">News and alerts, from the world to your street.</h1>
+    <p>Zoom out for world news. Zoom in for your state, your county, and the 20 miles around your place.</p>
+    <button class="btn btn-primary" id="useLoc">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+      Use my location</button>
+    <button class="btn btn-secondary">Type an address</button>
+    <p class="fine"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Your place stays on your phone.</p>
+    </div>
+    <div class="addr" aria-label="Type an address">
+      <h1 style="font-size:22px">Where is your place?</h1>
+      <p style="margin-bottom:12px">It's the middle of your 20-mile Near you circle.</p>
+      <div class="field" role="textbox" aria-label="Address or city"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7684" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Gil<span class="caret"></span></div>
+      <ul class="sugg">
+        <li><div><b>Gil</b>bert</div><span>Town · Maricopa County</span></li>
+        <li><div><b>Gil</b>a Bend</div><span>Town · Maricopa County</span></li>
+        <li><div><b>Gil</b>a Crossing</div><span>Community · Maricopa County</span></li>
+      </ul>
+      <p class="note">Location is off for this site. To turn it on: Settings › Privacy &amp; Security › Location Services › Safari Websites.</p>
+      <p class="fine" style="margin-top:0">Or type a full street address and press Go. Your place stays on your phone.</p>
+    </div>
+  </section>
+
+  <div class="top">
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span class="grow">Search an address or place</span>
+      <button class="locbtn" id="goHome" aria-label="Go to my place"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></button>
+    </div>
+    <nav class="crumbs" id="crumbs" aria-label="Level"></nav>
+  </div>
+  <div class="mock">Design mock · sample headlines</div>
+
+  <button class="pill" id="pill" aria-label="Open world news">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+    World news <span class="n" id="pillN">4</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg>
+  </button>
+  <button class="sethome" id="sethome">Set as my place</button>
+
+  <section class="sheet" id="sheet" aria-live="polite">
+    <button class="grab" id="grab" aria-label="Resize panel"></button>
+    <div class="sheet-h">
+      <div class="t"><h2 id="sTitle"></h2><div class="sub" id="sSub"></div></div>
+      <button class="x" id="close" aria-label="Close world news"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab on" id="tNews" role="tab">News <span class="c" id="cNews"></span></button>
+      <button class="tab" id="tAlerts" role="tab">Alerts <span class="c" id="cAlerts"></span></button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <!-- ---------- Notice detail (real NWS text from Sept 26, 2026; summary is a hand-written SAMPLE) ---------- -->
+  <section class="page detail" aria-label="Alert details">
+    <header class="ph">
+      <button class="icon-btn" data-back aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <span class="pt">Alert</span>
+      <button class="icon-btn" aria-label="Share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></button>
+    </header>
+    <div class="pbody">
+      <div class="row1"><span class="badge" style="background:var(--sev-orange-bg);color:var(--sev-orange)">◆ Plan for today</span><span class="cat">Weather · Flood</span></div>
+      <h1>Flood Watch</h1>
+      <div class="when">From Sun 11 PM until Tue 11 PM</div>
+      <div class="agency"><b>National Weather Service Flagstaff</b> · issued Sat 12:01 PM</div>
+      <div class="sumbox">
+        <div class="sumlabel">In plain words <span class="smp">SAMPLE</span></div>
+        <p>Flooding is possible across northern and central Arizona from Sunday evening through Tuesday evening. Burn areas, low-water crossings, creeks, washes and swimming holes are most at risk. Be ready to act if Flood Warnings are issued.</p>
+        <div class="ailabel">Summary written by AI from the original notice. Numbers and dates are checked against it. Follow the original.</div>
+      </div>
+      <dl class="wrows">
+        <dt>What</dt><dd>Flooding caused by excessive and long duration rainfall.</dd>
+        <dt>Where</dt><dd>All of northern and central Arizona.</dd>
+        <dt>When</dt><dd>From Sunday evening through Tuesday evening.</dd>
+        <dt>Impacts</dt><dd>Flooding will be possible over burn areas, low-water crossings, creeks, streams, washes and swimming holes. Larger creeks and rivers may exceed bankfull. Flooding of paved roads and highway underpasses will be possible. Unpaved roads could become muddy and impassable.</dd>
+      </dl>
+      <h2>What to do</h2>
+      <p class="txt">You should monitor later forecasts and be alert for possible Flood Warnings. Those living in areas prone to flooding should be prepared to take action should flooding develop.</p>
+      <button class="btn btn-primary">Read the original <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></button>
+      <button class="btn btn-secondary" id="exactBtn">Show the agency's exact words</button>
+      <div class="exact" id="exact">* WHAT...Flooding caused by excessive and long duration rainfall.
+
+* WHERE...All of northern and central Arizona.
+
+* WHEN...From Sunday evening through Tuesday evening.</div>
+      <p class="srcline">Source: National Weather Service (api.weather.gov) · Message expires Mon 11:45 PM; the danger ends Tue 11 PM.</p>
+      <div class="callout"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Not an emergency service. In an emergency, call 911.</div>
+    </div>
+  </section>
+
+  <!-- ---------- Sources and AI (statuses are SAMPLES) ---------- -->
+  <section class="page sources" aria-label="Sources and AI">
+    <header class="ph">
+      <button class="icon-btn" data-back aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <span class="pt">Sources &amp; AI</span><span style="width:44px"></span>
+    </header>
+    <div class="pbody">
+      <div class="sgroup"><h2>Official alerts</h2>
+        <div class="srow"><span class="dot"></span><div><div class="n">National Weather Service</div><div class="d">Watches, warnings, advisories · every 5 min · checked 3 min ago</div></div></div>
+        <div class="srow"><span class="dot"></span><div><div class="n">ADOT AZ511</div><div class="d">Road closures and restrictions · every 5 min · checked 2 min ago</div></div></div>
+        <div class="srow"><span class="dot"></span><div><div class="n">Maricopa County</div><div class="d">County news releases · every 30 min · checked 12 min ago</div></div></div>
+        <div class="srow"><span class="dot"></span><div><div class="n">City of Phoenix</div><div class="d">Council and committee meetings · every 6 hr · checked 2 hr ago</div></div></div>
+        <div class="srow"><span class="dot"></span><div><div class="n">USGS, NASA EONET, GDACS, WHO, FEMA</div><div class="d">World and U.S. disasters · every 30 min · checked 9 min ago</div></div></div>
+      </div>
+      <div class="sgroup"><h2>News headlines</h2>
+        <div class="srow"><span class="dot"></span><div><div class="n">The GDELT Project</div><div class="d">World and U.S. headlines · every 30 min · checked 6 min ago</div></div></div>
+        <div class="srow"><span class="dot"></span><div><div class="n">12News, azfamily, Cronkite News</div><div class="d">Arizona headlines · every 15 min · checked 4 min ago</div></div></div>
+        <div class="srow"><span class="dot amber"></span><div><div class="n">Example of a late source</div><div class="d warn">No update in 3 hours · cards may be out of date</div></div></div>
+      </div>
+      <div class="sgroup"><h2>How we use AI</h2>
+        <p class="prose">Local Pulse uses a small AI model to rewrite official notices in plain language. It does not choose which notices appear or how serious they are. Our code checks every number and date against the original, and you can always read the agency's exact words. News headlines are never rewritten.</p>
+      </div>
+      <div class="sgroup"><h2>Your privacy</h2>
+        <p class="prose">Your place stays on your phone. The app sends our server only a rounded version of it (to about 1 km) to find what's nearby, and we don't keep a record of it.</p>
+      </div>
+      <div class="callout" style="margin-bottom:16px">Not an emergency service. In an emergency, call 911.</div>
+      <p class="credits">Imagery: NASA Blue Marble via NASA GIBS · © OpenMapTiles · Data from OpenStreetMap · Boundaries: U.S. Census Bureau · Headlines for World and Region: The GDELT Project (gdeltproject.org). Statuses on this screen are samples.</p>
+    </div>
+  </section>
+
+  <!-- ---------- Why are stories hidden? ---------- -->
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="why-t">
+    <div class="msheet">
+      <div class="grab" style="margin-bottom:4px"></div>
+      <h2 id="why-t">Why some stories are hidden</h2>
+      <p>Local Pulse is about what changes your day: weather, roads, schools, health and your community. Stories about politics, elections and opinion are left out of these lists. The same rule applies to every outlet.</p>
+      <div class="counts2"><span>Hidden here: 4</span><span>3 politics or elections</span><span>1 opinion</span></div>
+      <p style="margin-bottom:14px">For official election dates and voting locations: <a class="alink" href="#" onclick="return false">Maricopa County Elections Department</a></p>
+      <div class="toggle"><span>Show hidden stories in this list</span><span class="sw" aria-hidden="true"></span></div>
+      <button class="btn btn-primary" data-back style="margin-top:8px">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>window.LP_BOUNDARIES={"az_state":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-110.751,37.003],[-114.051,37.0],[-114.044,36.193],[-114.067,36.179],[-114.097,36.121],[-114.121,36.111],[-114.112,36.095],[-114.133,36.062],[-114.137,36.038],[-114.151,36.023],[-114.175,36.027],[-114.212,36.015],[-114.244,36.015],[-114.264,36.028],[-114.271,36.046],[-114.314,36.059],[-114.307,36.082],[-114.37,36.143],[-114.406,36.147],[-114.445,36.125],[-114.463,36.14],[-114.505,36.127],[-114.509,36.133],[-114.5,36.143],[-114.511,36.151],[-114.571,36.151],[-114.615,36.13],[-114.63,36.142],[-114.664,36.116],[-114.735,36.104],[-114.755,36.086],[-114.735,36.057],[-114.741,36.038],[-114.722,36.029],[-114.743,36.008],[-114.741,35.976],[-114.708,35.928],[-114.708,35.91],[-114.662,35.871],[-114.706,35.851],[-114.695,35.831],[-114.712,35.806],[-114.699,35.79],[-114.694,35.757],[-114.706,35.708],[-114.681,35.684],[-114.69,35.651],[-114.654,35.61],[-114.659,35.587],[-114.676,35.58],[-114.664,35.568],[-114.657,35.535],[-114.676,35.516],[-114.679,35.498],[-114.663,35.446],[-114.627,35.41],[-114.605,35.355],[-114.569,35.183],[-114.578,35.129],[-114.628,35.119],[-114.647,35.102],[-114.613,35.083],[-114.603,35.069],[-114.638,35.027],[-114.629,34.986],[-114.635,34.875],[-114.587,34.836],[-114.553,34.767],[-114.488,34.717],[-114.47,34.711],[-114.451,34.667],[-114.458,34.657],[-114.441,34.643],[-114.439,34.621],[-114.424,34.61],[-114.425,34.601],[-114.437,34.596],[-114.405,34.57],[-114.381,34.53],[-114.387,34.458],[-114.374,34.447],[-114.335,34.45],[-114.326,34.437],[-114.295,34.421],[-114.289,34.407],[-114.264,34.401],[-114.226,34.366],[-114.177,34.349],[-114.157,34.318],[-114.138,34.303],[-114.131,34.263],[-114.165,34.26],[-114.166,34.25],[-114.225,34.204],[-114.23,34.187],[-114.257,34.173],[-114.287,34.171],[-114.321,34.139],[-114.353,34.133],[-114.367,34.119],[-114.416,34.108],[-114.434,34.087],[-114.438,34.023],[-114.466,34.011],[-114.459,33.995],[-114.5,33.962],[-114.522,33.956],[-114.535,33.935],[-114.535,33.926],[-114.508,33.904],[-114.526,33.901],[-114.503,33.868],[-114.53,33.858],[-114.52,33.825],[-114.528,33.815],[-114.505,33.76],[-114.512,33.734],[-114.494,33.708],[-114.496,33.697],[-114.524,33.686],[-114.532,33.675],[-114.53,33.667],[-114.514,33.66],[-114.533,33.652],[-114.524,33.635],[-114.531,33.624],[-114.522,33.613],[-114.541,33.591],[-114.524,33.553],[-114.559,33.532],[-114.57,33.509],[-114.592,33.499],[-114.623,33.457],[-114.63,33.428],[-114.643,33.417],[-114.688,33.418],[-114.725,33.405],[-114.707,33.383],[-114.698,33.352],[-114.708,33.323],[-114.731,33.302],[-114.722,33.287],[-114.681,33.274],[-114.672,33.258],[-114.69,33.246],[-114.674,33.223],[-114.675,33.185],[-114.68,33.159],[-114.704,33.114],[-114.706,33.088],[-114.689,33.084],[-114.674,33.042],[-114.662,33.033],[-114.646,33.049],[-114.619,33.027],[-114.59,33.026],[-114.572,33.037],[-114.511,33.023],[-114.493,32.972],[-114.468,32.971],[-114.469,32.954],[-114.481,32.936],[-114.463,32.908],[-114.469,32.845],[-114.53,32.795],[-114.527,32.757],[-114.539,32.757],[-114.539,32.75],[-114.564,32.75],[-114.565,32.742],[-114.582,32.742],[-114.582,32.735],[-114.615,32.735],[-114.617,32.728],[-114.703,32.745],[-114.764,32.643],[-114.783,32.624],[-114.808,32.619],[-114.799,32.593],[-114.802,32.576],[-114.814,32.562],[-114.806,32.559],[-114.793,32.57],[-114.791,32.556],[-114.806,32.546],[-114.802,32.536],[-114.813,32.525],[-114.802,32.514],[-114.816,32.508],[-114.814,32.494],[-112.238,31.701],[-111.075,31.332],[-109.05,31.332],[-109.045,36.999],[-110.751,37.003]]]},"properties":{"NAME":"Arizona","GEOID":"04"}}]},"maricopa":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-111.8931,33.2047],[-111.8926,33.2033],[-111.5826,33.2054],[-111.5843,33.3787],[-111.5807,33.3787],[-111.5806,33.4658],[-111.0399,33.4661],[-111.1534,33.6776],[-111.1695,33.6675],[-111.1735,33.6601],[-111.1806,33.6598],[-111.2003,33.6403],[-111.207,33.6369],[-111.2094,33.6335],[-111.2075,33.6206],[-111.2161,33.6127],[-111.2167,33.6083],[-111.2221,33.6024],[-111.2237,33.6029],[-111.2319,33.6095],[-111.2315,33.6132],[-111.2374,33.6154],[-111.2384,33.6184],[-111.2467,33.6215],[-111.2495,33.6243],[-111.2557,33.6211],[-111.2628,33.6232],[-111.2693,33.6292],[-111.2736,33.6384],[-111.2761,33.639],[-111.2802,33.6445],[-111.2798,33.6459],[-111.2823,33.6465],[-111.2872,33.652],[-111.2862,33.6566],[-111.2872,33.6586],[-111.2995,33.6638],[-111.3042,33.6714],[-111.3092,33.6739],[-111.3149,33.6814],[-111.326,33.6844],[-111.3314,33.6883],[-111.3362,33.7008],[-111.3383,33.7027],[-111.337,33.709],[-111.3386,33.7159],[-111.3364,33.7204],[-111.3436,33.7248],[-111.3443,33.7274],[-111.3523,33.7323],[-111.3519,33.7335],[-111.3548,33.7332],[-111.3563,33.7388],[-111.3721,33.7452],[-111.373,33.7493],[-111.3766,33.7496],[-111.3811,33.7477],[-111.3868,33.75],[-111.3822,33.761],[-111.3833,33.7628],[-111.3871,33.7632],[-111.3894,33.7708],[-111.3866,33.7732],[-111.3894,33.7767],[-111.3855,33.7832],[-111.3812,33.7852],[-111.3828,33.7881],[-111.3785,33.7937],[-111.3879,33.8032],[-111.3883,33.8054],[-111.3851,33.8103],[-111.3842,33.8165],[-111.372,33.8182],[-111.3723,33.8239],[-111.378,33.8274],[-111.3786,33.8296],[-111.3836,33.8336],[-111.3925,33.8359],[-111.3901,33.8377],[-111.3955,33.8409],[-111.3959,33.8446],[-111.3918,33.853],[-111.3923,33.8548],[-111.387,33.8604],[-111.3872,33.8625],[-111.3963,33.8686],[-111.3961,33.8728],[-111.3976,33.875],[-111.396,33.8769],[-111.4057,33.8795],[-111.4055,33.8821],[-111.4081,33.8839],[-111.4112,33.8836],[-111.4128,33.8859],[-111.4133,33.8887],[-111.4114,33.8916],[-111.4137,33.8987],[-111.4116,33.9037],[-111.408,33.9053],[-111.4086,33.912],[-111.4052,33.9194],[-111.4259,33.9261],[-111.4306,33.924],[-111.4375,33.9162],[-111.4517,33.921],[-111.4493,33.9297],[-111.452,33.9338],[-111.4471,33.9349],[-111.4473,33.9415],[-111.4523,33.9488],[-111.4516,33.954],[-111.448,33.9578],[-111.4524,33.961],[-111.4526,33.9659],[-111.4489,33.9686],[-111.4481,33.9733],[-111.4413,33.9784],[-111.4347,33.9809],[-111.4331,33.984],[-111.4347,33.9868],[-111.4372,33.9867],[-111.4428,33.9914],[-111.4404,33.9964],[-111.4443,33.9989],[-111.4451,34.0012],[-111.4494,34.0002],[-111.4544,34.0047],[-111.4584,34.0022],[-111.4665,34.0059],[-111.4707,34.0028],[-111.4724,34.0047],[-111.4735,34.0032],[-111.4899,34.0014],[-111.4917,33.9998],[-111.7263,34.0],[-112.1648,34.0482],[-112.1628,34.0469],[-112.1616,34.0423],[-112.1584,34.0438],[-112.1536,34.0409],[-112.1587,34.04],[-112.1647,34.0363],[-112.1648,34.027],[-112.1611,34.0177],[-112.1655,34.0126],[-112.1716,34.0178],[-112.1764,34.0144],[-112.1829,34.0125],[-112.1833,34.0099],[-112.1805,34.0036],[-112.1927,33.9919],[-112.1941,33.9779],[-112.1968,33.9739],[-112.2014,33.9707],[-112.215,33.9671],[-112.2146,33.9636],[-112.223,33.96],[-112.2292,33.9542],[-112.2403,33.9566],[-112.2403,33.9505],[-112.2358,33.9473],[-112.2414,33.9405],[-112.236,33.9395],[-112.2316,33.936],[-112.2351,33.9164],[-112.2366,33.9151],[-112.2429,33.9155],[-112.2436,33.9131],[-112.2407,33.9083],[-112.243,33.9054],[-112.2589,33.905],[-112.2657,33.8981],[-112.2752,33.8934],[-112.2776,33.8904],[-112.2762,33.8825],[-112.744,33.9999],[-113.3338,34.0],[-113.3351,33.7043],[-113.335,33.3775],[-113.3339,33.3774],[-113.3332,33.2272],[-113.3339,32.5052],[-112.2036,32.5067],[-112.2035,32.9417],[-112.2021,33.046],[-112.202,33.2905],[-112.2032,33.2905],[-112.2032,33.3105],[-112.1932,33.2973],[-112.1975,33.2891],[-112.1956,33.2848],[-112.1975,33.2784],[-112.1916,33.2647],[-112.1807,33.2625],[-112.1745,33.2636],[-112.1757,33.2611],[-112.1741,33.2581],[-112.1696,33.2596],[-112.1658,33.2566],[-112.1622,33.2562],[-112.1604,33.2539],[-112.1491,33.2538],[-112.1401,33.247],[-112.1396,33.2436],[-112.135,33.2421],[-112.1338,33.2357],[-112.1312,33.2328],[-112.1265,33.2355],[-112.1228,33.235],[-112.1199,33.2317],[-112.1162,33.2316],[-112.1137,33.2275],[-112.1001,33.2311],[-112.0955,33.2302],[-112.0897,33.2252],[-112.0882,33.2203],[-112.0921,33.2092],[-112.0835,33.2046],[-111.8931,33.2047]]]},"properties":{"NAME":"Maricopa County","GEOID":"04013"}}]},"phoenix":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"MultiPolygon","coordinates":[[[[-112.3241,33.5147],[-112.3236,33.4967],[-112.3196,33.4967],[-112.3196,33.4934],[-112.2724,33.4939],[-112.2724,33.4647],[-112.2382,33.4654],[-112.2384,33.4517],[-112.2213,33.4517],[-112.2211,33.4372],[-112.2382,33.4371],[-112.2551,33.4357],[-112.2896,33.4354],[-112.2886,33.3811],[-112.2846,33.3811],[-112.2846,33.3848],[-112.2718,33.3848],[-112.2713,33.3831],[-112.2681,33.3841],[-112.2635,33.3834],[-112.2544,33.3838],[-112.2494,33.3826],[-112.2398,33.385],[-112.2371,33.3877],[-112.2369,33.399],[-112.2393,33.3991],[-112.2393,33.4027],[-112.2455,33.4027],[-112.2456,33.399],[-112.2539,33.399],[-112.2547,33.4067],[-112.253,33.4068],[-112.2531,33.4105],[-112.2423,33.4116],[-112.2422,33.4081],[-112.2214,33.4085],[-112.2213,33.4051],[-112.217,33.4037],[-112.217,33.4086],[-112.2089,33.4085],[-112.2089,33.4035],[-112.204,33.4043],[-112.2034,33.3965],[-112.1859,33.396],[-112.1855,33.3984],[-112.1866,33.408],[-112.1779,33.4079],[-112.1779,33.4094],[-112.1756,33.4106],[-112.1756,33.4115],[-112.174,33.4114],[-112.1756,33.4099],[-112.1732,33.4098],[-112.1732,33.4087],[-112.1696,33.4097],[-112.1686,33.3993],[-112.1774,33.3996],[-112.1771,33.3958],[-112.1856,33.396],[-112.1853,33.3918],[-112.1941,33.3918],[-112.194,33.3841],[-112.1912,33.3847],[-112.191,33.3811],[-112.1897,33.381],[-112.1896,33.3773],[-112.2111,33.3773],[-112.2111,33.3802],[-112.2041,33.3802],[-112.204,33.3775],[-112.2026,33.3775],[-112.2028,33.3918],[-112.2075,33.3918],[-112.2074,33.3893],[-112.2106,33.3893],[-112.2106,33.3919],[-112.2153,33.3919],[-112.2153,33.3892],[-112.2197,33.3871],[-112.2197,33.3864],[-112.2263,33.3862],[-112.2263,33.3882],[-112.2274,33.3882],[-112.2274,33.3846],[-112.2284,33.3846],[-112.2282,33.3825],[-112.2202,33.3746],[-112.22,33.3701],[-112.2153,33.3701],[-112.1898,33.3454],[-112.1863,33.3453],[-112.1863,33.3416],[-112.1692,33.3251],[-112.169,33.3411],[-112.1558,33.3412],[-112.1558,33.3485],[-112.1548,33.3485],[-112.1549,33.3517],[-112.156,33.3521],[-112.1519,33.3529],[-112.1519,33.3558],[-112.1434,33.3558],[-112.1434,33.3545],[-112.1447,33.3545],[-112.1448,33.3533],[-112.1434,33.3534],[-112.1434,33.3485],[-112.1481,33.3485],[-112.148,33.3448],[-112.1399,33.3448],[-112.135,33.3486],[-112.135,33.343],[-112.1291,33.343],[-112.1296,33.3412],[-112.1394,33.3412],[-112.1394,33.3376],[-112.1437,33.3376],[-112.1437,33.3351],[-112.1458,33.3341],[-112.169,33.3339],[-112.169,33.3253],[-112.1665,33.3229],[-112.1648,33.323],[-112.1648,33.3222],[-112.1639,33.3222],[-112.1605,33.3194],[-112.1517,33.3195],[-112.1518,33.3082],[-112.1431,33.3007],[-112.1334,33.2906],[-112.1338,33.2903],[-111.9722,33.2908],[-111.9733,33.3051],[-111.9727,33.3078],[-111.9732,33.3494],[-111.9693,33.3636],[-111.9685,33.3743],[-111.9688,33.3773],[-111.9781,33.3767],[-111.9785,33.4365],[-111.9613,33.4362],[-111.9611,33.4489],[-111.9548,33.4483],[-111.9542,33.4445],[-111.9521,33.4485],[-111.9512,33.4473],[-111.9415,33.4474],[-111.9401,33.4499],[-111.9432,33.4549],[-111.9421,33.4568],[-111.9416,33.4615],[-111.9391,33.4653],[-111.9436,33.4656],[-111.9435,33.4729],[-111.961,33.4727],[-111.961,33.4739],[-111.9609,33.48],[-111.9572,33.4801],[-111.9531,33.4821],[-111.9519,33.4814],[-111.9509,33.4824],[-111.949,33.4826],[-111.9499,33.4875],[-111.952,33.4875],[-111.952,33.4909],[-111.9475,33.4902],[-111.9432,33.4908],[-111.9433,33.5054],[-111.9423,33.5054],[-111.9423,33.5028],[-111.94,33.5028],[-111.94,33.5079],[-111.9412,33.5084],[-111.9412,33.5093],[-111.9433,33.5092],[-111.9432,33.5166],[-111.9694,33.5161],[-111.9694,33.522],[-111.9737,33.5221],[-111.9737,33.5237],[-111.9863,33.5237],[-111.9885,33.5248],[-111.9924,33.5248],[-111.995,33.5238],[-111.9952,33.5136],[-111.9997,33.5135],[-112.0129,33.5185],[-112.0129,33.532],[-111.9952,33.5318],[-111.9953,33.5537],[-111.9864,33.5535],[-111.9864,33.5609],[-111.9778,33.5611],[-111.9778,33.5826],[-111.9692,33.5826],[-111.9692,33.5754],[-111.9435,33.5748],[-111.9434,33.5894],[-111.9521,33.5896],[-111.9521,33.597],[-111.939,33.5968],[-111.939,33.6004],[-111.9361,33.6004],[-111.9346,33.6004],[-111.9346,33.5968],[-111.926,33.5968],[-111.9257,33.7263],[-111.9607,33.7264],[-111.9607,33.7411],[-111.9673,33.7411],[-111.9673,33.7438],[-111.9694,33.7438],[-111.9694,33.7556],[-111.9651,33.7556],[-111.9651,33.752],[-111.9607,33.752],[-111.9607,33.7702],[-111.9433,33.7702],[-111.9434,33.7847],[-111.9529,33.7847],[-111.9565,33.7836],[-111.9607,33.7847],[-111.9607,33.792],[-111.9662,33.792],[-111.9662,33.791],[-111.963,33.7909],[-111.963,33.7883],[-111.9684,33.7883],[-111.9688,33.791],[-111.9683,33.7919],[-111.969,33.792],[-111.9706,33.7882],[-111.9783,33.7883],[-111.9781,33.7951],[-111.9717,33.7957],[-111.9716,33.7991],[-111.9913,33.799],[-111.9913,33.7955],[-111.9956,33.7955],[-111.9957,33.799],[-112.0212,33.799],[-112.0483,33.7989],[-112.0482,33.7848],[-112.0674,33.7845],[-112.0674,33.7881],[-112.0741,33.7881],[-112.074,33.79],[-112.0782,33.7907],[-112.0782,33.7918],[-112.0827,33.7917],[-112.0827,33.8063],[-112.1002,33.8054],[-112.1002,33.8277],[-112.1175,33.8277],[-112.1175,33.813],[-112.1394,33.8127],[-112.1446,33.8277],[-112.1461,33.8277],[-112.1456,33.8207],[-112.1467,33.8205],[-112.1508,33.8226],[-112.1523,33.8223],[-112.1522,33.8639],[-112.1456,33.8639],[-112.1467,33.8695],[-112.1476,33.8706],[-112.1469,33.8738],[-112.1474,33.8781],[-112.152,33.8781],[-112.152,33.8812],[-112.147,33.8812],[-112.1466,33.8784],[-112.1435,33.8784],[-112.1431,33.8839],[-112.1453,33.8839],[-112.1453,33.8856],[-112.1436,33.8856],[-112.1436,33.9001],[-112.1456,33.9001],[-112.1468,33.8929],[-112.1609,33.893],[-112.1609,33.9002],[-112.1523,33.9005],[-112.1523,33.9075],[-112.148,33.9076],[-112.1479,33.9111],[-112.1457,33.9111],[-112.1457,33.9147],[-112.1521,33.9147],[-112.1523,33.9184],[-112.2035,33.9183],[-112.2036,33.9138],[-112.2207,33.9137],[-112.221,33.8743],[-112.2103,33.8742],[-112.221,33.874],[-112.2209,33.8401],[-112.2288,33.8431],[-112.2313,33.8426],[-112.2355,33.828],[-112.2148,33.8271],[-112.2148,33.8232],[-112.208,33.8232],[-112.208,33.8195],[-112.2167,33.8196],[-112.2167,33.8269],[-112.2173,33.8273],[-112.2356,33.8276],[-112.2358,33.8268],[-112.2527,33.8269],[-112.2396,33.8124],[-112.2384,33.8124],[-112.2382,33.8088],[-112.2339,33.8088],[-112.2338,33.8053],[-112.2175,33.805],[-112.2196,33.8005],[-112.2191,33.7934],[-112.2204,33.7912],[-112.2201,33.7887],[-112.2217,33.7837],[-112.2251,33.7779],[-112.2251,33.7752],[-112.2267,33.774],[-112.221,33.7712],[-112.2173,33.7645],[-112.2143,33.7613],[-112.2036,33.7613],[-112.2029,33.6977],[-112.1697,33.6978],[-112.1693,33.639],[-112.1684,33.6324],[-112.1688,33.5953],[-112.1668,33.5947],[-112.1636,33.5899],[-112.1597,33.588],[-112.1568,33.5843],[-112.1517,33.5819],[-112.1517,33.51],[-112.1522,33.5094],[-112.2725,33.5082],[-112.2725,33.5228],[-112.2944,33.5221],[-112.2944,33.5189],[-112.2987,33.5188],[-112.2987,33.5151],[-112.3068,33.5148],[-112.3068,33.5216],[-112.3238,33.5215],[-112.3241,33.5147]],[[-112.0889,33.7257],[-112.0885,33.7254],[-112.0889,33.7254],[-112.0889,33.7257]],[[-112.1216,33.3923],[-112.1215,33.3929],[-112.1207,33.3929],[-112.1216,33.3923]],[[-111.931,33.6529],[-111.9299,33.6533],[-111.9303,33.6525],[-111.931,33.6529]],[[-112.2847,33.4063],[-112.2837,33.4063],[-112.2837,33.4055],[-112.2846,33.4055],[-112.2847,33.4063]],[[-112.1553,33.3777],[-112.1553,33.379],[-112.1546,33.379],[-112.1546,33.3777],[-112.1553,33.3777]],[[-112.1183,33.3778],[-112.1183,33.3786],[-112.1166,33.3786],[-112.1168,33.3778],[-112.1183,33.3778]],[[-112.1683,33.3817],[-112.1667,33.382],[-112.1667,33.3812],[-112.1683,33.3817]],[[-112.1689,33.3636],[-112.167,33.3641],[-112.1669,33.3631],[-112.1689,33.3636]],[[-111.9282,33.6517],[-111.9282,33.6533],[-111.9256,33.6533],[-111.9256,33.6527],[-111.9277,33.6528],[-111.9282,33.6517]],[[-112.0335,33.7005],[-112.0335,33.7019],[-112.0313,33.7018],[-112.0313,33.7004],[-112.0335,33.7005]],[[-112.0824,33.7094],[-112.0805,33.7094],[-112.0805,33.7076],[-112.0824,33.7076],[-112.0824,33.7094]],[[-111.9955,33.7799],[-111.9954,33.781],[-111.9934,33.781],[-111.9934,33.7792],[-111.9955,33.7792],[-111.9955,33.7799]],[[-112.1422,33.3893],[-112.1422,33.3903],[-112.1401,33.3903],[-112.1401,33.3885],[-112.1422,33.3885],[-112.1422,33.3893]],[[-112.0766,33.7002],[-112.0766,33.702],[-112.0743,33.702],[-112.0743,33.7002],[-112.0766,33.7002]],[[-112.1506,33.8838],[-112.1506,33.8847],[-112.1481,33.8847],[-112.1481,33.8857],[-112.1471,33.8856],[-112.147,33.8828],[-112.1501,33.8828],[-112.1506,33.8838]],[[-111.9785,33.3477],[-111.9784,33.3488],[-111.9732,33.3494],[-111.9728,33.3465],[-111.9754,33.3475],[-111.9758,33.3488],[-111.9756,33.3474],[-111.9785,33.3477]],[[-112.1734,33.3702],[-112.1692,33.3702],[-112.1692,33.3666],[-112.1734,33.3666],[-112.1734,33.3702]],[[-112.1648,33.3484],[-112.1599,33.3483],[-112.1598,33.3445],[-112.1638,33.3445],[-112.1638,33.348],[-112.1648,33.3471],[-112.1648,33.3484]],[[-112.2105,33.8739],[-112.2079,33.8742],[-112.2079,33.8775],[-112.2037,33.8775],[-112.2036,33.8738],[-112.2105,33.8739]],[[-111.9845,33.7834],[-111.9831,33.7834],[-111.9831,33.7846],[-111.9782,33.7847],[-111.9782,33.7829],[-111.9771,33.7829],[-111.9771,33.781],[-111.9825,33.781],[-111.9825,33.7828],[-111.9845,33.7834]],[[-112.1806,33.3702],[-112.1805,33.3774],[-112.1776,33.3774],[-112.1777,33.3703],[-112.1806,33.3702]],[[-112.1381,33.384],[-112.1338,33.384],[-112.1338,33.3862],[-112.138,33.3862],[-112.138,33.3871],[-112.1338,33.3871],[-112.1335,33.3884],[-112.1336,33.3822],[-112.1359,33.3821],[-112.1359,33.3812],[-112.1336,33.3812],[-112.1336,33.3794],[-112.1381,33.3794],[-112.1381,33.384]],[[-112.1207,33.385],[-112.1207,33.3859],[-112.1165,33.3859],[-112.1165,33.3874],[-112.1165,33.3886],[-112.1207,33.3886],[-112.1207,33.392],[-112.1163,33.3919],[-112.1163,33.3791],[-112.1166,33.3808],[-112.118,33.3808],[-112.1185,33.3818],[-112.1166,33.3822],[-112.1166,33.3838],[-112.118,33.384],[-112.1165,33.384],[-112.1165,33.385],[-112.1207,33.385]],[[-112.2125,33.4208],[-112.2124,33.423],[-112.2041,33.4229],[-112.2041,33.4196],[-112.2125,33.4193],[-112.2125,33.4208]],[[-112.0635,33.4822],[-112.0633,33.4872],[-112.0563,33.4872],[-112.0564,33.4817],[-112.0634,33.4815],[-112.0635,33.4822]],[[-112.0982,33.7065],[-112.0982,33.7083],[-112.0976,33.7074],[-112.0959,33.7074],[-112.0959,33.7096],[-112.0982,33.7092],[-112.0982,33.7098],[-112.0892,33.7099],[-112.0892,33.7111],[-112.0902,33.7111],[-112.0903,33.7128],[-112.0827,33.7129],[-112.0826,33.7076],[-112.0837,33.7075],[-112.0837,33.7094],[-112.0848,33.7094],[-112.0848,33.7058],[-112.0881,33.7058],[-112.0882,33.7075],[-112.0903,33.7075],[-112.0903,33.7093],[-112.0913,33.7093],[-112.0914,33.7084],[-112.0937,33.7084],[-112.0937,33.7065],[-112.0948,33.7065],[-112.0949,33.7057],[-112.096,33.7057],[-112.096,33.7065],[-112.0982,33.7065]],[[-112.1867,33.4368],[-112.1779,33.4368],[-112.1779,33.4298],[-112.1697,33.4295],[-112.1866,33.4298],[-112.1867,33.4368]],[[-112.2127,33.4121],[-112.2127,33.4155],[-112.204,33.4155],[-112.2031,33.4131],[-112.2041,33.4131],[-112.2041,33.4119],[-112.2025,33.4119],[-112.2024,33.4131],[-112.1954,33.413],[-112.1954,33.4083],[-112.2028,33.4083],[-112.2028,33.4096],[-112.2039,33.4096],[-112.2043,33.4082],[-112.2042,33.4125],[-112.2127,33.4121]],[[-112.1684,33.4077],[-112.1434,33.4064],[-112.1521,33.4035],[-112.1682,33.4035],[-112.1674,33.4037],[-112.1684,33.4077]],[[-111.9955,33.7747],[-111.9955,33.7782],[-111.9912,33.7774],[-111.9912,33.7792],[-111.9891,33.7792],[-111.9891,33.7811],[-111.9869,33.781],[-111.9869,33.7775],[-111.9836,33.7775],[-111.9842,33.776],[-111.9836,33.7756],[-111.9825,33.7756],[-111.9825,33.7775],[-111.9774,33.7774],[-111.9782,33.7762],[-111.9782,33.7774],[-111.9803,33.7774],[-111.9804,33.7756],[-111.9793,33.7757],[-111.9793,33.7745],[-111.9809,33.7719],[-111.9831,33.7719],[-111.9842,33.7701],[-111.987,33.7701],[-111.987,33.7735],[-111.9858,33.7737],[-111.9858,33.7764],[-111.987,33.7764],[-111.987,33.7737],[-111.9955,33.7736],[-111.9955,33.7747]],[[-112.1336,33.4048],[-112.1335,33.4065],[-112.1294,33.4065],[-112.1294,33.4038],[-112.1212,33.4066],[-112.122,33.4057],[-112.1198,33.4048],[-112.1196,33.4066],[-112.1166,33.4066],[-112.1165,33.3994],[-112.1308,33.3994],[-112.1308,33.4031],[-112.1335,33.4024],[-112.1336,33.4048]],[[-112.0573,33.7126],[-112.0486,33.7126],[-112.0486,33.6987],[-112.0571,33.6985],[-112.0573,33.7126]],[[-111.9782,33.7755],[-111.977,33.7774],[-111.9695,33.7774],[-111.9694,33.772],[-111.9749,33.772],[-111.9749,33.7702],[-111.9651,33.7702],[-111.9651,33.7647],[-111.9673,33.7647],[-111.9673,33.7665],[-111.9694,33.7665],[-111.9695,33.7629],[-111.9782,33.7629],[-111.9781,33.7702],[-111.976,33.7702],[-111.976,33.772],[-111.9782,33.772],[-111.9782,33.7755]],[[-111.9955,33.7332],[-111.9955,33.7446],[-111.9934,33.745],[-111.9934,33.7465],[-111.9901,33.7465],[-111.9905,33.7482],[-111.987,33.7482],[-111.9871,33.7456],[-111.989,33.7456],[-111.9891,33.7433],[-111.9911,33.7442],[-111.9912,33.741],[-111.9695,33.7413],[-111.9847,33.741],[-111.9847,33.7374],[-111.9825,33.7375],[-111.9825,33.732],[-111.9831,33.732],[-111.9824,33.7284],[-111.9867,33.7284],[-111.9868,33.7302],[-111.9955,33.7302],[-111.9955,33.7332]],[[-112.2888,33.3955],[-112.2721,33.3958],[-112.2722,33.3992],[-112.2807,33.3996],[-112.2723,33.3996],[-112.2723,33.4029],[-112.2636,33.4029],[-112.2624,33.4034],[-112.2625,33.4064],[-112.2549,33.4064],[-112.2541,33.3992],[-112.2678,33.3992],[-112.2677,33.3957],[-112.272,33.3958],[-112.2719,33.3923],[-112.2677,33.3923],[-112.2677,33.3893],[-112.272,33.3891],[-112.2721,33.3904],[-112.277,33.3904],[-112.277,33.3921],[-112.2771,33.3904],[-112.2806,33.3897],[-112.2806,33.3922],[-112.281,33.3912],[-112.2847,33.3911],[-112.2848,33.3921],[-112.2888,33.392],[-112.2888,33.3955]],[[-112.1777,33.3629],[-112.1696,33.3628],[-112.1689,33.3602],[-112.169,33.3628],[-112.1626,33.363],[-112.1626,33.3665],[-112.1562,33.3666],[-112.1562,33.3703],[-112.1518,33.3704],[-112.1518,33.363],[-112.1605,33.3629],[-112.1605,33.352],[-112.169,33.352],[-112.1689,33.3557],[-112.1776,33.3556],[-112.1777,33.3629]],[[-112.0999,33.7192],[-112.0998,33.72],[-112.0989,33.7201],[-112.0989,33.721],[-112.0998,33.721],[-112.0997,33.7256],[-112.09,33.7257],[-112.0896,33.7251],[-112.0874,33.7257],[-112.0659,33.7259],[-112.0658,33.7201],[-112.0829,33.7203],[-112.0825,33.7131],[-112.0848,33.7131],[-112.0848,33.7148],[-112.0859,33.7148],[-112.0859,33.7131],[-112.0891,33.7131],[-112.0893,33.7166],[-112.0871,33.7166],[-112.0871,33.7175],[-112.0893,33.7175],[-112.0893,33.7184],[-112.0898,33.7174],[-112.0909,33.7174],[-112.0909,33.7184],[-112.0915,33.7184],[-112.0914,33.7156],[-112.0902,33.7157],[-112.0901,33.7148],[-112.0914,33.7147],[-112.0913,33.713],[-112.0924,33.713],[-112.0925,33.7147],[-112.0948,33.7147],[-112.0948,33.7138],[-112.0958,33.7138],[-112.0959,33.7165],[-112.0971,33.7165],[-112.0971,33.7183],[-112.0998,33.7183],[-112.0999,33.7192]],[[-112.1682,33.4013],[-112.1648,33.4031],[-112.1507,33.4028],[-112.1424,33.4063],[-112.1424,33.3911],[-112.1465,33.3909],[-112.1466,33.3922],[-112.1506,33.3922],[-112.1507,33.394],[-112.1511,33.3922],[-112.1535,33.3922],[-112.1531,33.3957],[-112.1541,33.3957],[-112.1541,33.392],[-112.1573,33.3919],[-112.1574,33.3957],[-112.1585,33.3957],[-112.1585,33.3919],[-112.1595,33.3919],[-112.1595,33.3902],[-112.1606,33.3902],[-112.1606,33.3919],[-112.166,33.3922],[-112.166,33.396],[-112.1681,33.3957],[-112.1682,33.4013]],[[-112.1405,33.3631],[-112.1369,33.3631],[-112.1369,33.359],[-112.1348,33.359],[-112.1348,33.3604],[-112.1347,33.3594],[-112.1305,33.3595],[-112.1305,33.363],[-112.1298,33.3631],[-112.1305,33.3631],[-112.1305,33.3722],[-112.1262,33.3721],[-112.1262,33.3739],[-112.1305,33.3739],[-112.1305,33.3761],[-112.1315,33.3761],[-112.1315,33.3776],[-112.1189,33.3776],[-112.1189,33.3768],[-112.1176,33.3768],[-112.1178,33.3414],[-112.1221,33.3413],[-112.1221,33.345],[-112.1243,33.345],[-112.1243,33.3467],[-112.1256,33.3467],[-112.1256,33.3486],[-112.1349,33.3486],[-112.1349,33.3558],[-112.1326,33.3558],[-112.1326,33.3567],[-112.1349,33.3567],[-112.1349,33.3587],[-112.1391,33.3586],[-112.1391,33.3594],[-112.1404,33.3594],[-112.1405,33.3631]],[[-112.3239,33.5075],[-112.3236,33.5214],[-112.3069,33.5215],[-112.3068,33.5075],[-112.3029,33.5076],[-112.3028,33.4947],[-112.3088,33.4945],[-112.3088,33.4934],[-112.3195,33.4935],[-112.3195,33.4967],[-112.3234,33.4968],[-112.3239,33.5075]]],[[[-112.1263,33.3618],[-112.1262,33.3592],[-112.1215,33.3594],[-112.1176,33.3612],[-112.1176,33.3631],[-112.1255,33.363],[-112.1255,33.3619],[-112.1263,33.3618]]]]},"properties":{"NAME":"Phoenix city","GEOID":"0455000"}}]},"deervalley":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-112.2735,33.7403],[-112.273,33.7249],[-112.2554,33.7249],[-112.2549,33.7181],[-112.2465,33.7179],[-112.2466,33.7148],[-112.2381,33.7148],[-112.2383,33.7249],[-112.2207,33.7251],[-112.2204,33.6816],[-112.2225,33.6816],[-112.2225,33.6799],[-112.2236,33.6799],[-112.2236,33.6781],[-112.2247,33.678],[-112.2269,33.6732],[-112.2269,33.6717],[-112.2278,33.6717],[-112.2328,33.6633],[-112.2332,33.6527],[-112.2345,33.6454],[-112.2371,33.6454],[-112.2378,33.638],[-112.0828,33.6402],[-112.0829,33.6685],[-112.0485,33.6689],[-112.0493,33.6723],[-112.0539,33.6774],[-112.0514,33.681],[-112.05,33.681],[-112.0485,33.6844],[-112.048,33.7264],[-111.9967,33.7264],[-111.9955,33.7272],[-111.9962,34.0299],[-112.1648,34.0482],[-112.1628,34.0469],[-112.1616,34.0423],[-112.1584,34.0438],[-112.1561,34.0432],[-112.1536,34.0409],[-112.155,34.0399],[-112.1587,34.04],[-112.1633,34.038],[-112.1647,34.0363],[-112.1654,34.0322],[-112.1648,34.027],[-112.1611,34.0186],[-112.1644,34.0131],[-112.1667,34.0127],[-112.1697,34.0169],[-112.172,34.0178],[-112.1742,34.0169],[-112.1764,34.0144],[-112.1814,34.0135],[-112.1829,34.0125],[-112.1833,34.0099],[-112.1804,34.0057],[-112.1805,34.0036],[-112.1849,34.0006],[-112.1862,33.9972],[-112.1897,33.9954],[-112.1927,33.9919],[-112.1941,33.9779],[-112.1968,33.9739],[-112.2014,33.9707],[-112.2078,33.9699],[-112.215,33.9671],[-112.2146,33.9636],[-112.223,33.96],[-112.2292,33.9542],[-112.2304,33.954],[-112.2334,33.9558],[-112.2403,33.9566],[-112.2397,33.9542],[-112.2403,33.9505],[-112.2358,33.9473],[-112.2375,33.9449],[-112.24,33.9432],[-112.2414,33.9405],[-112.236,33.9395],[-112.2316,33.936],[-112.2339,33.9262],[-112.2351,33.9164],[-112.2366,33.9151],[-112.2391,33.915],[-112.2409,33.916],[-112.2429,33.9155],[-112.2436,33.9131],[-112.2407,33.9083],[-112.2414,33.9065],[-112.243,33.9054],[-112.2494,33.9046],[-112.2546,33.9055],[-112.2589,33.905],[-112.2607,33.904],[-112.2657,33.8981],[-112.273,33.8943],[-112.2734,33.841],[-112.2724,33.8266],[-112.2735,33.8121],[-112.273,33.7979],[-112.2735,33.7403]]]},"properties":{"NAME":"Deer Valley Unified District","GEOID":"0407750"}}]}};</script>
+<script>
+(function(){
+  const params = new URLSearchParams(location.search);
+  let start = (location.hash || '#globe').slice(1);
+  // Extra screens for the build pack: #detail #sources #why #empty #address #away
+  const START_OV = start;
+  const ALIAS = { detail:'state', sources:'local', why:'county', empty:'local-alerts', address:'globe', away:'away' };
+  if (ALIAS[start]) start = ALIAS[start];
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const B = window.LP_BOUNDARIES;
+  const HOME = [-112.0740, 33.4484];     // sample place: downtown Phoenix (not a real user's address)
+  const RADIUS_MI = 20;
+
+  // ---------- levels ----------
+  // Test safe areas on a desktop browser: ?safe=59,34 acts like an installed iPhone app (top, bottom in px)
+  if (params.get('safe')) { const [t,b] = params.get('safe').split(',').map(Number);
+    document.documentElement.style.setProperty('--safe-t', (t||0)+'px'); document.documentElement.style.setProperty('--safe-b', (b||0)+'px'); }
+  const probe = document.createElement('div'); probe.style.cssText = 'position:absolute;visibility:hidden;height:var(--safe-t)';
+  document.body.appendChild(probe); const SAFE_T = probe.offsetHeight; probe.remove();
+  // Short screens (a phone browser with its toolbars showing) get a shorter panel so the map keeps room
+  const SHEET = innerHeight < 720 ? 0.42 : 0.48;
+  document.documentElement.style.setProperty('--sheet-h', (SHEET*100)+'%');
+
+  // Levels switch where each area starts to fill the screen, so they work the same on every phone size.
+  // The 'from' values are replaced once the map knows its size (see computeLevels).
+  const LEVELS = [
+    { id:'world',  from:0   },
+    { id:'region', from:2   },
+    { id:'state',  from:4.5 },
+    { id:'county', from:6.5 },
+    { id:'local',  from:8   },
+  ];
+  const GAP = 0.25;              // hysteresis so the level doesn't flicker at a threshold
+  let zi = null;                 // zoom-derived level index
+
+  function zoomIndex(z){
+    if (zi === null){ let i=0; while(i+1<LEVELS.length && z>=LEVELS[i+1].from) i++; return i; }
+    let i = zi;
+    while (i+1<LEVELS.length && z>=LEVELS[i+1].from+GAP) i++;
+    while (i>0 && z<LEVELS[i].from-GAP) i--;
+    return i;
+  }
+
+  // ---------- geometry helpers ----------
+  function inRing(pt, ring){ let c=false; for(let i=0,j=ring.length-1;i<ring.length;j=i++){ const [xi,yi]=ring[i],[xj,yj]=ring[j];
+      if(((yi>pt[1])!==(yj>pt[1])) && (pt[0] < (xj-xi)*(pt[1]-yi)/(yj-yi)+xi)) c=!c; } return c; }
+  function inGeo(pt, fc){ return fc.features.some(f => { const polys = f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;
+      return polys.some(p => inRing(pt,p[0]) && !p.slice(1).some(h => inRing(pt,h))); }); }
+  function miles(a,b){ const R=3958.8, r=Math.PI/180, dLat=(b[1]-a[1])*r, dLon=(b[0]-a[0])*r;
+      const h=Math.sin(dLat/2)**2+Math.cos(a[1]*r)*Math.cos(b[1]*r)*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+  function inUS([x,y]){ return (x>-125&&x<-66.9&&y>24.4&&y<49.5)||(x>-170&&x<-129&&y>51&&y<71.5)||(x>-161&&x<-154&&y>18.8&&y<22.4); }
+  function circle(center, mi, steps=64){ const R=3958.8, d=mi/R, r=Math.PI/180, lat1=center[1]*r, lon1=center[0]*r, out=[];
+      for(let i=0;i<=steps;i++){ const b=2*Math.PI*i/steps;
+        const lat2=Math.asin(Math.sin(lat1)*Math.cos(d)+Math.cos(lat1)*Math.sin(d)*Math.cos(b));
+        const lon2=lon1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(lat1),Math.cos(d)-Math.sin(lat1)*Math.sin(lat2));
+        out.push([lon2/r, lat2/r]); } return out; }
+
+  // ---------- content (NEWS = made-up samples; World/Region alerts = real Sept 26 feed items) ----------
+  const TOPICS = ['All','Weather','Roads','Community','Schools','Health','Safety'];
+  const DATA = {
+    world: { title:'World news', sub:'Past 24 hours · updated 6 min ago', hidden:6,
+      news:[
+        ['Wire service','2 hr ago','Space agency shares first images from its newest weather satellite'],
+        ['International broadcaster','3 hr ago','Strong earthquake shakes island towns; officials say there is no tsunami threat', '2 outlets'],
+        ['Wire service','5 hr ago','Flights resume at a major Asian hub after a typhoon passes'],
+        ['Science desk','7 hr ago','Researchers map a coral reef in record detail using underwater drones'],
+      ],
+      alerts:[
+        ['orange','◆ Orange','Storm','Tropical Cyclone 01B, Bay of Bengal','GDACS','Sept 26'],
+        ['yellow','● Heads-up','Storm','Typhoon Surigae, near Taiwan','NASA EONET','Sept 26'],
+        ['yellow','● Heads-up','Storm','Hurricane Nolo, south of Hawaii','NASA EONET','Sept 26'],
+        ['gray','○ Good to know','Earthquake','M 5.6, 74 km ESE of Kokopo, Papua New Guinea','USGS','Sept 26'],
+      ] },
+    region: { title:'United States', sub:'Past 24 hours · updated 6 min ago', hidden:11,
+      news:[
+        ['Public radio','1 hr ago','What the rest of hurricane season could look like, in four charts'],
+        ['Wire service','3 hr ago','Smoke from a southern wildfire reaches three neighboring states'],
+        ['Business desk','4 hr ago','Airlines add winter routes to the Southwest'],
+        ['Science desk','6 hr ago','Fall color is arriving early in parts of New England'],
+      ],
+      alerts:[
+        ['orange','◆ Today','Disaster','FEMA declaration: Tropical Storm Nolo, Hawaii','FEMA','Sept 25'],
+        ['yellow','● Heads-up','Wildfire','Merit Creek wildfire, Greene County, Mississippi','NASA EONET','Sept 23'],
+      ] },
+    state: { title:'Arizona', sub:'Past 48 hours · updated 4 min ago', hidden:9,
+      news:[
+        ['Local TV station','1 hr ago','Monsoon storms knock out power to thousands across the Valley','2 outlets'],
+        ['State news site','3 hr ago','New freeway lanes open north of Phoenix ahead of schedule'],
+        ['Public radio','6 hr ago','Canyon rim trail reopens after summer repairs'],
+        ['Local TV station','9 hr ago','University team tests cooler pavement on a Tucson street'],
+      ],
+      alerts:[
+        ['yellow','● Heads-up','Roads','I-40 lane restrictions near Flagstaff overnight','ADOT (AZ511)','2 hr ago'],
+        ['gray','○ Good to know','Weather','Flood Watch expired for southeast Arizona','National Weather Service','5 hr ago'],
+      ] },
+    county: { title:'Maricopa County', sub:'Past 48 hours · updated 4 min ago', hidden:4,
+      news:[
+        ['Local TV station','2 hr ago','Rain totals: how much fell across the Valley this morning','Phoenix area'],
+        ['Community paper','5 hr ago','Glendale park adds a splash pad and new shade trees','Glendale'],
+        ['Local TV station','8 hr ago','Surprise opens eight new pickleball courts','Surprise'],
+        ['Public radio','12 hr ago','Tempe library adds a free 3D-printing lab','Tempe'],
+      ],
+      alerts:[
+        ['yellow','● Heads-up','Air','High Pollution Advisory: ozone, Saturday','ADEQ via National Weather Service','3 hr ago'],
+        ['gray','○ Good to know','County','County cooling centers keep extended hours through Oct. 31','Maricopa County','1 day ago'],
+      ] },
+    local: { title:'Near you', sub:'Within 20 miles of your place · past 48 hours', hidden:3,
+      news:[
+        ['Local TV station','1 hr ago','Tempe Town Lake cleanup day set for Saturday morning','Tempe · 7.8 mi'],
+        ['Community paper','3 hr ago','Glendale adds evening hours at two splash pads','Glendale · 9.0 mi'],
+        ['Local TV station','4 hr ago','Scottsdale road project shifts lanes this weekend','Scottsdale · 9.1 mi','2 outlets'],
+        ['Public radio','7 hr ago','Mesa farmers market moves to evening hours for fall','Mesa · 14.2 mi'],
+      ],
+      alerts:[
+        ['yellow','● Heads-up','Roads','I-17 northbound lanes closed at Happy Valley Rd','ADOT (AZ511)','1 hr ago · 18.4 mi'],
+        ['yellow','● Heads-up','Air','High Pollution Advisory: ozone, Saturday','ADEQ via National Weather Service','3 hr ago'],
+        ['gray','○ Good to know','Meetings','City Council Formal Meeting, Wed 2:30 PM','City of Phoenix','agenda posted · 0.2 mi'],
+      ] },
+    other_region: { title:'This country', sub:'Country headlines come from GDELT', hidden:0, news:[], alerts:[], note:'In the real app: headlines from this country’s outlets. The prototype has sample content for the U.S. only.' },
+    other_state:  { title:'This state', sub:'Statewide headlines via GDELT', hidden:0, news:[], alerts:[], note:'County and Local detail is Arizona-only for now.' },
+    other_county: { title:'This county', sub:'Arizona county · you are far from your place', hidden:0, news:[], alerts:[], note:'You are zoomed in more than 20 miles from your place, so this shows county news and alerts. Tap Set as my place to see Near you here. (The prototype has sample content for Maricopa County only.)' },
+  };
+  if (START_OV === 'empty') DATA.local.alerts = [];
+  if (START_OV === 'detail') { /* opened from the Arizona alerts list */ }
+  const CRUMB = { world:'World', region:'U.S.', state:'Arizona', county:'Maricopa', local:'Near you' };
+  const PRESET = {  // starting cameras; recomputed for the actual screen in computeLevels()
+    world:  { center:[-150, 15], zoom:1.2 },
+    region: { center:[-98, 38.5], zoom:2.5 },
+    state:  { center:[-111.9, 34.0], zoom:4.7 },
+    county: { center:[-112.2, 33.35], zoom:6.8 },
+    local:  { center:HOME, zoom:8.2 },
+  };
+
+  // ---------- stars ----------
+  const c = document.getElementById('stars'), ctx = c.getContext('2d');
+  function drawStars(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    c.width = innerWidth * dpr; c.height = innerHeight * dpr;
+    c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px';
+    const g = ctx.createRadialGradient(c.width*.5, c.height*.38, 0, c.width*.5, c.height*.38, c.height*.8);
+    g.addColorStop(0,'#13224a'); g.addColorStop(.55,'#0a1226'); g.addColorStop(1,'#03050b');
+    ctx.fillStyle = g; ctx.fillRect(0,0,c.width,c.height);
+    let seed = 7; const rnd = () => (seed = (seed*16807) % 2147483647) / 2147483647;
+    for (let i=0;i<260;i++){ const x=rnd()*c.width, y=rnd()*c.height, r=(rnd()<.92? .6 : 1.2)*dpr, a=.25+rnd()*.6;
+      ctx.fillStyle=`rgba(226,236,255,${a})`; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+  }
+  drawStars(); addEventListener('resize', drawStars);
+
+  // ---------- map ----------
+  const first = start === 'globe';
+  const startLevel = first ? 'world' : (start.startsWith('local') ? 'local' : (start === 'worldnews' ? 'world' : (start === 'away' ? 'county' : start)));
+  const P = first ? { center:[-100, 25], zoom:1.25 } : { ...(PRESET[startLevel] || PRESET.world) };
+  const sheetPx = () => Math.round(innerHeight * SHEET);
+  function paddingFor(level, sheetOn){
+    if (first) return { top:56, bottom: document.querySelector('.welcome').offsetHeight + 24, left:0, right:0 };
+    return { top: 104 + SAFE_T, bottom: sheetOn ? sheetPx() + 8 : 92, left: 12, right: 12 };
+  }
+  let sheetOpenWorld = start === 'worldnews';
+  if (start === 'worldnews') { P.zoom = 0.85; }
+  document.body.className = first ? ('first dark' + (START_OV === 'address' ? ' addr-on' : '')) : '';
+  const map = new maplibregl.Map({
+    container:'map', style:'https://tiles.openfreemap.org/styles/positron',
+    center:P.center, zoom:P.zoom, attributionControl:{ compact:true }, maxPitch:60, fadeDuration:150
+  });
+  window.__map = map;
+
+  function bbox(fc){ const bb=[180,90,-180,-90]; fc.features.forEach(f => (f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates)
+      .forEach(p => p[0].forEach(([x,y]) => { bb[0]=Math.min(bb[0],x); bb[1]=Math.min(bb[1],y); bb[2]=Math.max(bb[2],x); bb[3]=Math.max(bb[3],y); }))); return bb; }
+  function computeLevels(){
+    const ring = circle(HOME, RADIUS_MI), rb = [180,90,-180,-90];
+    ring.forEach(([x,y]) => { rb[0]=Math.min(rb[0],x); rb[1]=Math.min(rb[1],y); rb[2]=Math.max(rb[2],x); rb[3]=Math.max(rb[3],y); });
+    const pad = paddingFor('state', true), saved = map.getPadding();
+    map.setPadding({ top:0, bottom:0, left:0, right:0 });   // cameraForBounds adds the map's own padding on top
+    const fit = bb => map.cameraForBounds([[bb[0],bb[1]],[bb[2],bb[3]]], { padding: { top: pad.top, bottom: pad.bottom, left: 16, right: 16 } });
+    const us = fit([-124.7,24.5,-67,49.4]), az = fit(bbox(B.az_state)), mc = fit(bbox(B.maricopa)), lc = fit(rb);
+    map.setPadding(saved);
+    // At low zoom the globe draws larger than a flat-map fit predicts, so the U.S. needs extra room (measured in the prototype)
+    const GLOBE_FIX = 0.4;
+    LEVELS[1].from = +(us.zoom - GLOBE_FIX - 0.3).toFixed(2);
+    LEVELS[2].from = +(az.zoom - 0.4).toFixed(2);
+    LEVELS[3].from = +(mc.zoom - 0.4).toFixed(2);
+    LEVELS[4].from = +(lc.zoom - 0.35).toFixed(2);
+    // Use each area's own middle: the map's padding already shifts it above the panel
+    const mid = bb => [(bb[0]+bb[2])/2, (bb[1]+bb[3])/2];
+    PRESET.region = { center: [-98.5, 38.5], zoom: us.zoom - GLOBE_FIX };
+    PRESET.state  = { center: mid(bbox(B.az_state)), zoom: az.zoom };
+    PRESET.county = { center: [-112.25, 33.40], zoom: mc.zoom };   // inside the county (its box middle is not)
+    PRESET.local  = { center: HOME, zoom: lc.zoom };
+    window.__levels = { thresholds: LEVELS.map(l => l.id+' '+l.from), fits: { us: us.zoom.toFixed(2), az: az.zoom.toFixed(2), maricopa: mc.zoom.toFixed(2), ring: lc.zoom.toFixed(2) } };
+  }
+
+  map.on('style.load', () => {
+    map.setProjection({ type:'globe' });
+    map.setPadding(paddingFor(startLevel, startLevel !== 'world' || sheetOpenWorld));
+    if (!first) { computeLevels(); if (PRESET[startLevel] && startLevel !== 'world') Object.assign(P, PRESET[startLevel]);
+      if (start === 'away') Object.assign(P, { center:[-110.97, 32.24], zoom: PRESET.local.zoom + 0.3 }); }   // Tucson: zoomed in, but far from the saved place
+    map.jumpTo({ center:P.center, zoom:P.zoom });
+    map.setSky({ 'sky-color':'#0a1226', 'horizon-color':'#9fd3ff', 'sky-horizon-blend':0.6,
+      'atmosphere-blend':['interpolate',['linear'],['zoom'],0,1,5,1,7,0] });
+    const layers = map.getStyle().layers;
+    const firstSymbol = (layers.find(l => l.type === 'symbol') || {}).id;
+    map.addSource('bluemarble', { type:'raster', tileSize:256, maxzoom:8,
+      tiles:['https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/' + (params.get('imagery')==='truecolor' ? 'BlueMarble_NextGeneration' : 'BlueMarble_ShadedRelief_Bathymetry') + '/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg'],
+      attribution:'Imagery: NASA Blue Marble, via NASA GIBS' });
+    map.addLayer({ id:'bluemarble', type:'raster', source:'bluemarble',
+      paint:{ 'raster-opacity':['interpolate',['linear'],['zoom'],0,1,5.8,1,7,0], 'raster-saturation':0.12, 'raster-contrast':0.08, 'raster-fade-duration':200 } }, firstSymbol);
+    for (const l of layers) { if (l.type !== 'symbol') continue;
+      try { map.setPaintProperty(l.id,'text-opacity',['interpolate',['linear'],['zoom'],5.5,0,7,1]); } catch(e){}
+      try { map.setPaintProperty(l.id,'icon-opacity',['interpolate',['linear'],['zoom'],5.5,0,7,1]); } catch(e){} }
+
+    map.addSource('az', { type:'geojson', data:B.az_state });
+    map.addSource('maricopa', { type:'geojson', data:B.maricopa });
+    map.addLayer({ id:'az-glow', type:'line', source:'az', paint:{ 'line-color':'#22d3ee', 'line-width':['interpolate',['linear'],['zoom'],1,4,6,8], 'line-blur':4,
+      'line-opacity':['interpolate',['linear'],['zoom'],1,.55,6,.25,8,0] } });
+    map.addLayer({ id:'az-line', type:'line', source:'az', paint:{ 'line-color':'#a5f3fc', 'line-width':['interpolate',['linear'],['zoom'],1,1,6,1.6],
+      'line-opacity':['interpolate',['linear'],['zoom'],1,.95,7,.6,9,0] } });
+    map.addLayer({ id:'maricopa-line', type:'line', source:'maricopa', minzoom:5,
+      paint:{ 'line-color':'#334155', 'line-width':1.4, 'line-dasharray':[3,2], 'line-opacity':['interpolate',['linear'],['zoom'],5,0,6.3,.75,9,.3] } });
+
+    // 20-mile ring around the saved place, with everything outside it dimmed slightly
+    const ring = circle(HOME, RADIUS_MI);
+    map.addSource('ring', { type:'geojson', data:{ type:'Feature', properties:{}, geometry:{ type:'LineString', coordinates:ring } } });
+    map.addSource('mask', { type:'geojson', data:{ type:'Feature', properties:{}, geometry:{ type:'Polygon',
+      coordinates:[[[-118,29],[-106,29],[-106,38.5],[-118,38.5],[-118,29]], ring.slice().reverse()] } } });
+    map.addSource('ringlabel', { type:'geojson', data:{ type:'Feature', properties:{ t:RADIUS_MI+' mi' }, geometry:{ type:'Point', coordinates:ring[8] } } });
+    map.addLayer({ id:'mask', type:'fill', source:'mask', minzoom:7, layout:{ visibility:'none' }, paint:{ 'fill-color':'#0b1220', 'fill-opacity':0.10 } });
+    map.addLayer({ id:'ring', type:'line', source:'ring', layout:{ visibility:'none' }, paint:{ 'line-color':'#0891b2', 'line-width':2.2, 'line-dasharray':[2,1.6] } });
+    map.addLayer({ id:'ringlabel', type:'symbol', source:'ringlabel', layout:{ visibility:'none', 'text-field':['get','t'], 'text-font':['Noto Sans Bold'], 'text-size':12, 'text-offset':[0,-0.9] },
+      paint:{ 'text-color':'#0e7490', 'text-halo-color':'#ffffff', 'text-halo-width':2 } });
+
+    addMarkers();
+  });
+
+  // ---------- markers ----------
+  const ICON = {
+    storm:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 4a8 8 0 1 0 8 8"/><path d="M12 8a4 4 0 1 0 4 4"/></svg>',
+    quake:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3-7 4 14 3-7h6"/></svg>',
+    fire:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-6 2 1 3 2 3 4"/></svg>',
+    news:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="15" height="14" rx="2"/><path d="M18 9h3v8a2 2 0 0 1-2 2M7 9h7M7 13h7M7 17h4"/></svg>',
+    cone:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M9 3h6l4 18H5z"/><path d="M7.5 10h9M6.5 15h11"/></svg>',
+  };
+  function marker(cls, html, lngLat, group, bg){
+    const el = document.createElement('div'); el.className = cls + ' ' + group; el.innerHTML = html; if (bg) el.style.background = bg;
+    const below = cls === 'mk-news';  // hang news pins just below the point so town labels stay readable
+    return new maplibregl.Marker({ element:el, anchor: below ? 'top' : 'center', offset: below ? [0, 10] : [0, 0] }).setLngLat(lngLat).addTo(map);
+  }
+  function addMarkers(){
+    // Real items from Sept 26, 2026 feeds (NASA EONET, GDACS, USGS)
+    marker('mk', ICON.storm, [83.7,18.1],   'g-world', '#b54708');
+    marker('mk', ICON.storm, [126.9,23.3],  'g-world', '#c9a100');
+    marker('mk', ICON.storm, [-155.3,16.9], 'g-world', '#c9a100');
+    marker('mk', ICON.storm, [-22.4,14.2],  'g-world', '#c9a100');
+    marker('mk', ICON.quake, [152.84,-4.70],'g-world', '#6b7280');
+    marker('mk', ICON.fire,  [-88.84,31.05],'g-world', '#c9a100');
+    // Sample local items
+    marker('mk-news', ICON.news, [-111.940,33.431], 'g-local');
+    marker('mk-news', ICON.news, [-111.926,33.494], 'g-local');
+    marker('mk-news', ICON.news, [-111.8315,33.4152], 'g-local');
+    marker('mk-news', ICON.news, [-112.186,33.5387], 'g-local');
+    marker('mk', ICON.cone, [-112.1106,33.7127], 'g-local', '#c9a100');
+    const h = document.createElement('div'); h.className = 'home g-local';
+    new maplibregl.Marker({ element:h }).setLngLat(HOME).addTo(map);
+  }
+
+  // ---------- rendering ----------
+  const $ = id => document.getElementById(id);
+  let tab = (start === 'local-alerts' || START_OV === 'detail') ? 'alerts' : 'news';
+  let shown = null;
+  function esc(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+  const pinSvg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+  const extSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7684" stroke-width="2.2" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+
+  function renderSheet(key){
+    const d = DATA[key];
+    const lvlName = { world:'World', region:'Region', state:'State', county:'County', local:'Local' }[key.replace('other_','')];
+    $('sTitle').innerHTML = esc(d.title) + (key === 'world' ? '' : ' <span class="lvl">' + lvlName + '</span>');
+    $('sSub').textContent = d.sub;
+    $('cNews').textContent = d.news.length || '';
+    $('cAlerts').textContent = d.alerts.length || '';
+    $('pillN').textContent = DATA.world.news.length;
+    $('tNews').classList.toggle('on', tab === 'news'); $('tAlerts').classList.toggle('on', tab === 'alerts');
+    const topics = tab === 'news' ? TOPICS : ['All','Weather','Roads','Air','Water','Schools','Meetings'];
+    $('chips').innerHTML = topics.map((t,i) => `<span class="chip${i?'':' on'}">${t}</span>`).join('');
+    let html = '';
+    if (d.note) html += `<div class="foot" style="padding:18px 8px">${esc(d.note)}</div>`;
+    if (tab === 'news') {
+      html += d.news.map(n => {
+        const place = (key==='county'||key==='local') && n[3] && !/outlets$/.test(n[3]) ? n[3] : null;
+        const merged = n.find((v,i) => i>=3 && /outlets$/.test(v));
+        const foot = (place || merged) ? `<div class="nfoot">${place?`<span class="nplace">${pinSvg}${esc(place)}</span>`:''}${merged?`<span class="merged">${esc(merged)}</span>`:''}</div>` : '';
+        return `<a class="ncard" href="#" onclick="return false"><div class="nmeta"><b>${esc(n[0])}</b><span>· ${esc(n[1])}</span><span class="sp"></span><span class="smp">SAMPLE</span>${extSvg}</div>
+          <h3>${esc(n[2])}</h3>${foot}</a>`; }).join('');
+      if (d.hidden) html += `<div class="foot">${d.hidden} political or opinion stories hidden · <a href="#" data-ov="why">Why?</a></div>`;
+    } else {
+      if (!d.alerts.length && !d.note) html += `<div class="empty"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><h3>No active alerts within 20 miles</h3><p>Last checked 2 min ago</p><button class="btn btn-secondary">See the last 7 days</button></div>`;
+      html += d.alerts.map(a => `<article class="card ${a[0]}" data-ov="detail" tabindex="0"><div class="bar"></div><div class="cbody"><div class="row1"><span class="badge">${esc(a[1])}</span><span class="cat">${esc(a[2])}</span></div>
+          <h3>${esc(a[3])}</h3><div class="meta"><b>${esc(a[4])}</b> · ${esc(a[5])}</div></div></article>`).join('');
+      if (key==='world'||key==='region') html += `<div class="foot">Real items from public feeds, Sept 26, 2026</div>`;
+    }
+    html += `<div class="listlinks"><a href="#" data-ov="sources">Sources &amp; AI</a><span style="color:var(--ink-3)">Not an emergency service</span></div>`;
+    $('list').innerHTML = html;
+    $('list').scrollTop = 0;
+  }
+
+  function renderCrumbs(path){
+    $('crumbs').innerHTML = path.map((k,i) => `${i?'<span class="sep">›</span>':''}<button class="crumb${i===path.length-1?' on':''}" data-k="${k}">${esc(k.startsWith('other_') ? DATA[k].title : CRUMB[k])}</button>`).join('');
+    $('crumbs').querySelectorAll('.crumb').forEach(b => b.onclick = () => goLevel(b.dataset.k));
+    const cr = $('crumbs'); cr.scrollLeft = cr.scrollWidth; cr.classList.toggle('fade', cr.scrollWidth > cr.clientWidth + 2);  // keep the current level in view
+  }
+
+  function resolve(){
+    const z = map.getZoom(), ctr = map.getCenter().toArray();
+    zi = zoomIndex(z);
+    const us = inUS(ctr), az = inGeo(ctr, B.az_state), mar = inGeo(ctr, B.maricopa), dHome = miles(ctr, HOME);
+    let key, path, away = false;
+    const lvl = LEVELS[zi].id;
+    if (lvl === 'world') { key='world'; path=['world']; }
+    else if (lvl === 'region' || !us) { key = us ? 'region' : 'other_region'; path=['world', key]; }
+    else if (lvl === 'state' || !az) { key = az ? 'state' : 'other_state'; path=['world','region',key]; }
+    else if (lvl === 'county' || dHome > RADIUS_MI) { key = mar ? 'county' : 'other_county'; path=['world','region','state',key]; away = lvl === 'local'; }
+    else { key='local'; path=['world','region','state','county','local']; }
+    return { key, path, away };
+  }
+
+  function apply(){
+    if (first) return;
+    const r = resolve();
+    const base = r.key.replace('other_','');
+    const sheetOn = base !== 'world' || sheetOpenWorld;
+    const tc = document.querySelector('meta[name=theme-color]'); if (tc) tc.content = (base==='world'||base==='region') ? '#03050b' : '#ffffff';
+    document.body.className = ['lv-'+base, sheetOn?'sheet-on':'', base==='world'||base==='region'?'dark':'', r.away?'away':''].join(' ');
+    const vis = base === 'local' ? 'visible' : 'none';
+    ['ring','mask','ringlabel'].forEach(id => map.getLayer(id) && map.setLayoutProperty(id,'visibility',vis));
+    if (r.key !== shown) {
+      if (shown && (shown === 'local') !== (r.key === 'local') && start !== 'local-alerts') tab = 'news';
+      shown = r.key; renderSheet(r.key); renderCrumbs(r.path);
+    }
+    const want = paddingFor(base, sheetOn), cur = map.getPadding();
+    if (Math.abs(cur.bottom - want.bottom) > 2 || Math.abs(cur.top - want.top) > 2) map.easeTo({ padding:want, duration: 250 });
+  }
+  let t = null;
+  map.on('moveend', () => { clearTimeout(t); t = setTimeout(apply, 300); });
+  map.on('load', () => { apply(); spin();
+    const at = document.querySelector('.maplibregl-ctrl-attrib'); if (at) at.classList.remove('maplibregl-compact-show'); });
+
+  function goLevel(k){
+    const base = k.replace('other_','');
+    if (base === 'world') sheetOpenWorld = false;
+    const p = PRESET[base]; if (!p) return;
+    const opts = { ...p, padding: paddingFor(base, base !== 'world') };
+    if (reduceMotion) map.jumpTo(opts); else map.flyTo({ ...opts, duration: 1600, curve: 1.4, essential:true });
+  }
+  $('pill').onclick = () => { sheetOpenWorld = true; spinning = false; tab='news'; shown=null; apply();
+    map.easeTo({ zoom: 0.85, padding: paddingFor('world', true), duration: 500 }); };
+  $('close').onclick = () => { sheetOpenWorld = false; apply(); map.easeTo({ zoom: 1.2, padding: paddingFor('world', false), duration: 500 });
+    spinning = !reduceMotion && !params.has('nospin'); resumeSoon(); };
+  $('tNews').onclick = () => { tab='news'; renderSheet(shown); };
+  $('tAlerts').onclick = () => { tab='alerts'; renderSheet(shown); };
+  $('goHome').onclick = () => goLevel('local');
+  $('sethome').onclick = () => { $('sethome').textContent = 'Saved as your place'; };
+
+  // ---------- spin: only at World level with the panel closed ----------
+  const secondsPerRevolution = Number(params.get('spin')) || 120;
+  let interacting = false, spinning = !reduceMotion && !params.has('nospin') && (first || start === 'world'), resumeTimer = null;
+  function spin(){
+    if (!spinning || interacting || document.hidden || sheetOpenWorld) return;
+    const z = map.getZoom(); if (z >= LEVELS[1].from) return;   // spin only at World level
+    const center = map.getCenter(); center.lng -= 360 / secondsPerRevolution;
+    map.easeTo({ center, duration:1000, easing: x => x });
+  }
+  const pause = () => { interacting = true; clearTimeout(resumeTimer); };
+  const resumeSoon = () => { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { interacting = false; spin(); }, 8000); };
+  ['mousedown','touchstart','wheel','dragstart','pitchstart','rotatestart'].forEach(e => map.on(e, pause));
+  ['mouseup','touchend','dragend','pitchend','rotateend'].forEach(e => map.on(e, resumeSoon));
+  map.on('moveend', spin);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) spin(); });
+
+  // ---------- overlays: detail, sources, why ----------
+  const app = document.getElementById('app');
+  function openOv(name){ app.dataset.ov = name || ''; }
+  document.addEventListener('click', e => {
+    const o = e.target.closest('[data-ov]'); if (o) { e.preventDefault(); openOv(o.dataset.ov); return; }
+    if (e.target.closest('[data-back]')) { openOv(''); }
+  });
+  $('exactBtn').onclick = () => { const x = $('exact'); x.classList.toggle('on'); $('exactBtn').textContent = x.classList.contains('on') ? 'Hide the exact words' : "Show the agency's exact words"; };
+  if (['detail','sources','why'].includes(START_OV)) openOv(START_OV);
+
+  // ---------- first open: "Use my location" (demo: flies to the sample place) ----------
+  $('useLoc').onclick = () => { location.hash = '#local'; location.reload(); };
+})();
+</script>
+</body>
+</html>

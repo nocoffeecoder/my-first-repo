@@ -1,0 +1,71 @@
+{
+ "note": "BUILD.md \u00a711.3. Fixture counts must also match: azmirror 77 politics/5 opinion/18 shown; 12news 3/0/37; cronkite 5/0/10; azfamily 0/0/20 (without politics-names.txt).",
+ "cases": [
+  {
+   "title": "Arizona Attorney General debate between Mayes, Petersen gets heated",
+   "link": "https://www.12news.com/article/news/politics/elections/example",
+   "categories": [],
+   "expected": "politics"
+  },
+  {
+   "title": "One-page ballot may not ease voting for Maricopa County voters with disabilities",
+   "link": "",
+   "categories": [],
+   "expected": "politics"
+  },
+  {
+   "title": "Congress passes a stopgap spending bill",
+   "link": "",
+   "categories": [],
+   "expected": "politics"
+  },
+  {
+   "title": "Crash closes road in Congress, Ariz.",
+   "link": "",
+   "categories": [],
+   "expected": null
+  },
+  {
+   "title": "ICE detains 12 at Phoenix worksite",
+   "link": "",
+   "categories": [],
+   "expected": "politics"
+  },
+  {
+   "title": "Ice rink opens at Westgate for the holidays",
+   "link": "",
+   "categories": [],
+   "expected": null
+  },
+  {
+   "title": "Opinion: Phoenix needs more shade trees",
+   "link": "",
+   "categories": [],
+   "expected": "opinion"
+  },
+  {
+   "title": "Firefighters battle large blaze at Phoenix auto shop; cars destroyed, no injuries reported",
+   "link": "",
+   "categories": [],
+   "expected": null
+  },
+  {
+   "title": "Tempe considers ban on city-owned automated license plate readers",
+   "link": "",
+   "categories": [],
+   "expected": null
+  },
+  {
+   "title": "Bystander mistakenly attacked by police dog can't proceed with lawsuit, Arizona Supreme Court rules",
+   "link": "",
+   "categories": [],
+   "expected": null
+  },
+  {
+   "title": "Vaccination campaign starts at county clinics",
+   "link": "",
+   "categories": [],
+   "expected": null
+  }
+ ]
+}
